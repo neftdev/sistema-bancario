@@ -9,7 +9,7 @@ def registroView(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            loginView(request)
+            request.session["cod_cuenta"] = form.cleaned_data.get('cod_usuario')
             return redirect('home:index')
     else:
         form = RegisterForm()
