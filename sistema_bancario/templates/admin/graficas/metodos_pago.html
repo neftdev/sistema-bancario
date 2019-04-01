@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+      <div class="container">
+            <div class="row">
+                  <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">Graficas - Metodos de Pago</h2>
+                    <hr class="light my-4">
+                  </div>
+            </div>
+      </div>
+</section>
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <hr class="light my-4">
+        <div id="canvas"></div>
+    </div>
+</div>
+
+</br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary" href="/admin/{{id}}/graficas">Home Graficas</a>
+</div>
+</br>
+
+
+{% endblock %}
+
+{% block extraJs %}
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script charset="utf-8">
+
+    var data = [
+      {{cadena|safe}}
+    ]
+
+    var width = 960,
+      height = 500,
+      radius = Math.min(width, height) / 2;
+
+    var color = d3.scale.ordinal()
+      .range(["#fbb040", "#f15a29", "#be1e2d"]);
+
+    var arc = d3.svg.arc()
+      .outerRadius(radius - 10)
+      .innerRadius(0);
+
+    var labelArc = d3.svg.arc()
+      .outerRadius(radius - 60*(Math.PI / 2))
+      .innerRadius(radius - 60*(Math.PI / 2));
+
+    var pie = d3.layout.pie()
+      .sort(null)
+      .value(function(d) {
+        return d.size;
+      });
+
+    var svg = d3.select("#canvas").append("svg")
+      .classed("pie", true)
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    var g = svg.selectAll(".arc")
+      .data(pie(data))
+      .enter().append("g")
+      .attr("class", "arc");
+
+    g.append("path")
+      .attr("d", arc)
+      .style("fill", function(d) {
+        return color(d.data.label);
+      });
+
+    g.append("text")
+      .classed("text", true)
+      .attr("transform", function(d) {
+        return "translate(" + labelArc.centroid(d) + ")";
+      })
+      .attr("dy", ".32em")
+      .style("font-size","22px")
+      .style("font-family","Verdana, Geneva, sans-serif")
+      .text(function(d) {
+        return d.data.label;
+      });
+
+    function type(d) {
+      d.size = +d.size;
+      return d;
+    }
+
+</script>
+{% endblock %}

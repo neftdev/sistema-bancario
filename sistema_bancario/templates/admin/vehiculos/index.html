@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+      <div class="container">
+            <div class="row">
+                  <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">Vehiculos</h2>
+                    <hr class="light my-4">
+                  </div>
+            </div>
+      </div>
+</section>
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <hr class="light my-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Conductor</td>
+                    <td>Marca</td>
+                    <td>Modelo</td>
+                    <td>Anio</td>
+                    <td>No. Placa</td>
+                    <td>Color</td>
+                    <td>Foto</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rol in roles %}
+                <tr>
+                    <td>{{ rol.conductor }}</td>
+                    <td>{{ rol.marca }}</td>
+                    <td>{{ rol.modelo }}</td>
+                    <td>{{ rol.anio }}</td>
+                    <td>{{ rol.no_placa}}</td>
+                    <td>{{ rol.color}}</td>
+                    <td><img src= "/media/{{rol.foto}}"style="width:130px;height:150px;"/></td>
+                    <td>
+                        <a class="btn btn-primary" href="/admin/{{id}}/vehiculos/editar/{{ rol.id }}">Editar</a>
+                        <a class="btn btn-danger" href="/admin/{{id}}/vehiculos/eliminar/{{ rol.id }}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary" href="/admin/{{id}}/vehiculos/crear/1">Crear</a>
+    <a class="btn btn-primary" href="/admin/{{id}}">Home Admin</a>
+</div>
+</br>
+
+
+{% endblock %}
