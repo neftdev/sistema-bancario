@@ -4,13 +4,17 @@ from .forms import LoginForm
 from .forms import RegisterForm
 
 
+def codigoView(request):
+    return render(request, 'register/codigo.html', {'codigo': request.session["cod_cuenta"]})
+
+
 def registroView(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            request.session["cod_cuenta"] = form.cleaned_data.get('cod_usuario')
-            return redirect('home:index')
+            usuario = form.save()
+            request.session["cod_cuenta"] = usuario.cod_usuario
+            return redirect('usuario:codigo')
     else:
         form = RegisterForm()
     return render(request, 'register/index.html', {'form': form})
