@@ -10,17 +10,14 @@ class RegisterForm(forms.ModelForm):
     nick_name = forms.CharField(max_length=12, required=True, widget=forms.TextInput(
         attrs={'class': 'form-control'}))
 
-    correo = forms.EmailField(widget=forms.EmailInput( attrs={'class': 'form-control'}))
+    correo = forms.EmailField(widget=forms.EmailInput(
+        attrs={'class': 'form-control'}))
 
     password = forms.CharField(min_length=8,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+                               widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     confirm_password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = Usuario
-        fields = ['rol', 'full_name', 'nick_name', 'correo', 'password']
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
@@ -51,13 +48,15 @@ class RegisterForm(forms.ModelForm):
             'rol': forms.HiddenInput(),
         }
 
+
 class LoginForm(forms.ModelForm):
 
     class Meta:
         model = Usuario
         fields = ['cod_usuario', 'nick_name', 'password', ]
 
-        labels = {'cod_usuario': "Codigo de Usuario",'nick_name': "Usuario", 'password': "Password", }
+        labels = {'cod_usuario': "Codigo de Usuario",
+                  'nick_name': "Usuario", 'password': "Password", }
         widgets = {
             'cod_usuario': forms.NumberInput(attrs={'class': 'form-control'}),
             'nick_name': forms.TextInput(attrs={'class': 'form-control'}),
