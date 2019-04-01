@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+      <div class="container">
+            <div class="row">
+                  <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">Reportes - Top 5 Marcas</h2>
+                    <hr class="light my-4">
+                  </div>
+            </div>
+      </div>
+</section>
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <hr class="light my-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Marca</td>
+                    <td>Total</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for dato in datos %}
+                <tr>
+                    {% for c in dato %}
+                        <td>
+                            {{c}}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary" href="/admin/{{id}}/reportes">Home Reportes</a>
+</div>
+</br>
+
+
+{% endblock %}

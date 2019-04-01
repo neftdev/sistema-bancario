@@ -1,0 +1,133 @@
+{% extends 'base/base.html' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+      <div class="container">
+            <div class="row">
+                  <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">Graficas - Conductores</h2>
+                    <hr class="light my-4">
+                  </div>
+            </div>
+      </div>
+</section>
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <hr class="light my-4">
+        <div id="canvas"></div>
+    </div>
+</div>
+
+</br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary" href="/admin/{{id}}/graficas">Home Graficas</a>
+</div>
+</br>
+
+
+{% endblock %}
+
+{% block extraJs %}
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script charset="utf-8">
+
+        var categories= {{labels|safe}};
+
+		var values = {{values|safe}};
+
+		var colors = {{colors|safe}};
+
+		var grid = d3.range(25).map(function(i){
+			return {'x1':0,'y1':0,'x2':0,'y2':480};
+		});
+
+		var tickVals = grid.map(function(d,i){
+			if(i>0){ return i*10; }
+			else if(i===0){ return "100";}
+		});
+
+		var escalaX = d3.scale.linear()
+						.domain([10,250])
+						.range([0,722]);
+
+		var escalaY = d3.scale.linear()
+						.domain([0,categories.length])
+						.range([0,480]);
+
+		var escalarColor = d3.scale.quantize()
+						.domain([0,categories.length])
+						.range(colors);
+
+		var canvas = d3.select('#canvas')
+						.append('svg')
+						.attr({'width':900,'height':550});
+
+		var grids = canvas.append('g')
+						  .attr('id','grid')
+						  .attr('transform','translate(150,10)')
+						  .selectAll('line')
+						  .data(grid)
+						  .enter()
+						  .append('line')
+						  .attr({'x1':function(d,i){ return i*30; },
+								 'y1':function(d){ return d.y1; },
+								 'x2':function(d,i){ return i*30; },
+								 'y2':function(d){ return d.y2; },
+							})
+						  .style({'stroke':'#adadad','stroke-width':'1px'});
+
+		var	xAxis = d3.svg.axis();
+			xAxis
+				.orient('bottom')
+				.scale(escalaX)
+				.tickValues(tickVals);
+
+		var	yAxis = d3.svg.axis();
+			yAxis
+				.orient('left')
+				.scale(escalaY)
+				.tickSize(2)
+				.tickFormat(function(d,i){ return categories[i]; })
+				.tickValues(d3.range(17));
+
+		var y_xis = canvas.append('g')
+						  .attr("transform", "translate(150,0)")
+						  .attr('id','yaxis')
+						  .call(yAxis);
+
+		var x_xis = canvas.append('g')
+						  .attr("transform", "translate(150,480)")
+						  .attr('id','xaxis')
+						  .call(xAxis);
+
+		var chart = canvas.append('g')
+							.attr("transform", "translate(150,0)")
+							.attr('id','bars')
+							.selectAll('rect')
+							.data(values)
+							.enter()
+							.append('rect')
+							.attr('height',19)
+							.attr({'x':0,'y':function(d,i){ return escalaY(i)+19; }})
+							.style('fill',function(d,i){ return escalarColor(i); })
+							.attr('width',function(d){ return 0; });
+
+
+		var transit = d3.select("svg").selectAll("rect")
+						    .data(values)
+						    .transition()
+						    .duration(1000)
+						    .attr("width", function(d) {return escalaX(d); });
+
+</script>
+{% endblock %}

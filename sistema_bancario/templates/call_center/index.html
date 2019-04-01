@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+      <div class="container">
+            <div class="row">
+                  <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">Call Center - Reservaciones</h2>
+                    <hr class="light my-4">
+                  </div>
+            </div>
+      </div>
+</section>
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <hr class="light my-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Cliente</td>
+                    <td>Conductor</td>
+                    <td>Hora</td>
+                    <td>Fecha</td>
+                    <td>Precio</td>
+                    <td>Status</td>
+                    <td>Metodo de pago</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rol in roles %}
+                <tr>
+                    <td>{{ rol.cliente }}</td>
+                    <td>{{ rol.conductor }}</td>
+                    <td>{{ rol.hora }}</td>
+                    <td>{{ rol.fecha }}</td>
+                    <td>{{ rol.precio }}</td>
+                    <td>{{ rol.status }}</td>
+                    <td>{{ rol.met_pago }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="/admin/{{id}}/reservaciones/editar/{{ rol.id }}">Editar</a>
+                        <a class="btn btn-danger" href="/admin/{{id}}/reservaciones/eliminar/{{ rol.id }}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary" href="/admin/{{id}}/reservaciones/crear/1">Crear</a>
+</div>
+</br>
+
+
+{% endblock %}

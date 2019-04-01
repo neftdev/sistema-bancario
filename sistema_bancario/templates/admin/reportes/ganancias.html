@@ -1,0 +1,78 @@
+{% extends 'base/base.html' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+      <div class="container">
+            <div class="row">
+                  <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">Reportes - Ganancias por fecha</h2>
+                    <hr class="light my-4">
+                  </div>
+            </div>
+      </div>
+</section>
+
+<div class="row">
+    <div class="col-md-2 col-md-offset-2">
+    </div>
+    <div class="col-md-8 col-md-offset-4">
+        <div class="col-md-12 text-center">
+        </div>
+        <br>
+        <form action="" method="post">
+            {% csrf_token %}
+            <p><label for="id_fecha">Fecha:</label> <input type="date" name="fecha" required="" class="form-control" id="id_fecha"></p>
+            <div class="col-md-12 text-center">
+                <input class="btn btn-light btn-xl js-scroll-trigger" type="submit" value="Cargar">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <hr class="light my-4">
+
+        {% if datos %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Total de ganancias en la fecha {{fecha}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for dato in datos %}
+                <tr>
+                    {% for c in dato %}
+                            <td>
+                                Q. {{c}}
+                            </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <h1>No hay ganancias en al fecha dada</h1>
+        {% endif %}
+    </div>
+</div>
+
+</br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary" href="/admin/{{id}}/reportes">Home Reportes</a>
+</div>
+</br>
+
+
+{% endblock %}
