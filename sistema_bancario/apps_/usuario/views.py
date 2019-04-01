@@ -1,9 +1,20 @@
 from django.shortcuts import render, redirect
 from apps_.usuario.models import Usuario
-from apps_.usuario.forms import LoginForm
-# Create your views here.
+from .forms import LoginForm
+from .forms import RegisterForm
 
-def login_view(request):
+
+def registroView(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home:index')
+    else:
+        form = RegisterForm()
+    return render(request, 'register/index.html', {'form': form})
+
+def loginView(request):
     #Borrar variable de sesion
     if "cod_cuenta" in request.session:
         del request.session["cod_cuenta"]

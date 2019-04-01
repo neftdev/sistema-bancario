@@ -50,6 +50,28 @@ Crear Nuevo usuario en MySQL
     // refrescar privilegios
     FLUSH PRIVILEGES;
 
+Instalar el cliente de MySQL para Python
+
+    pip install pymysql
+
+Modificar el Archivo __init__ de la aplicacion principal
+
+    import pymysql
+    pymysql.install_as_MySQLdb()
+
+Configuracion de la base de datos
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'nombreDB',
+            'USER': 'nombreusuario',
+            'PASSWORD': 'pass',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
+
 Servidor Local
 --------------
 
