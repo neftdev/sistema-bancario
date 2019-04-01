@@ -50,13 +50,19 @@ class RegisterForm(forms.ModelForm):
 
 
 class LoginForm(forms.ModelForm):
+    cod_usuario = forms.CharField(
+        widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['cod_usuario'].label = "Codigo de Usuario"
 
     class Meta:
         model = Usuario
         fields = ['cod_usuario', 'nick_name', 'password', ]
 
-        labels = {'cod_usuario': "Codigo de Usuario",
-                  'nick_name': "Usuario", 'password': "Password", }
+        labels = {'cod_usuario': "Codigo", 'nick_name': "Usuario", 'password': "Password", }
+
         widgets = {
             'cod_usuario': forms.NumberInput(attrs={'class': 'form-control'}),
             'nick_name': forms.TextInput(attrs={'class': 'form-control'}),
