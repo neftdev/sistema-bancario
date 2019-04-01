@@ -4,6 +4,8 @@ from .forms import LoginForm, RegisterForm
 
 
 def codigoView(request):
+    if "cod_cuenta" not in request.session:
+        return redirect('usuario:login')
     return render(request, 'register/codigo.html', {'codigo': request.session["cod_cuenta"]})
 
 
@@ -28,17 +30,18 @@ def loginView(request):
         codigo = request.POST['cod_usuario']
         name = request.POST['nick_name']
         clave = request.POST['password']
-        
+
         print("Codigo: "+codigo+", Name: "+name+", Pass: "+clave)
 
         verify = Usuario.objects.filter(
             pk=codigo, nick_name=name, password=clave).exists()
 
         if verify:
-            objects = Usuario.objects.filter(pk=codigo, nick_name=name, password = clave)
-            rol = str(objects[0].rol.nombre);
-            
-            #CREACIONES DE VARIABLE DE SESION
+            objects = Usuario.objects.filter(
+                pk=codigo, nick_name=name, password=clave)
+            rol = str(objects[0].rol.nombre)
+
+            # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
 
             print("Rol: #"+str(objects[0].pk)+"#")
@@ -49,6 +52,7 @@ def loginView(request):
 
     form = LoginForm()
     return render(request, 'login/index.html', {'form': form})
+
 
 def homeView(request):
     if "cod_cuenta" not in request.session:
