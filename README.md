@@ -39,6 +39,7 @@ Instalar Django
     pip install Django==2.1.x
 
 Iniciar sesion en MySQL por consola
+
     mysql -u root -p
 
 Crear Nuevo usuario en MySQL
