@@ -61,7 +61,8 @@ class LoginForm(forms.ModelForm):
         model = Usuario
         fields = ['cod_usuario', 'nick_name', 'password', ]
 
-        labels = {'cod_usuario': "Codigo", 'nick_name': "Usuario", 'password': "Password", }
+        labels = {'cod_usuario': "Codigo",
+                  'nick_name': "Usuario", 'password': "Password", }
 
         widgets = {
             'cod_usuario': forms.NumberInput(attrs={'class': 'form-control'}),
