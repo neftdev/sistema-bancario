@@ -19,3 +19,11 @@ class Usuario(models.Model):
     rol = models.ForeignKey(Rol, null=False, blank=False,on_delete=models.CASCADE)
     def __unicode__(self):
         return '{} ({})'.format(self.nick_name, self.correo)
+
+class Debito(models.Model):
+    cuenta = models.ForeignKey(Usuario, null=False, blank=False, on_delete=models.CASCADE)
+    monto = models.DecimalField(max_digits=6, decimal_places=2, default=0, blank=True, null=False)
+    descripcion = models.TextField(blank=True, null=True)
+    fecha = models.DateField(auto_now_add=True, blank=True)
+    def __unicode__(self):
+        return '{}'.format(self.cuenta, self.descripcion, self.fecha_reg)

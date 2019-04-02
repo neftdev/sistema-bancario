@@ -1,23 +1,14 @@
 from django import forms
-from .models import Usuario
+from apps_.usuario.models import Usuario
 from django.utils.safestring import mark_safe
 
 
 class RegisterForm(forms.ModelForm):
-    full_name = forms.CharField(max_length=70, required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control'}))
-
-    nick_name = forms.CharField(max_length=12, required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control'}))
-
-    correo = forms.EmailField(widget=forms.EmailInput(
-        attrs={'class': 'form-control'}))
-
-    password = forms.CharField(min_length=8,
-                               widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-    confirm_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    full_name = forms.CharField(max_length=70, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    nick_name = forms.CharField(max_length=12, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    correo = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(min_length=8, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
