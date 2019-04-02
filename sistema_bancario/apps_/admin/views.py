@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps_.usuario.models import Usuario
+from apps_.usuario.models import Usuario, Credito
 from apps_.admin.forms import DebitoForm
 # from .models import Debito
 # Create your views here.
@@ -37,7 +37,21 @@ def debitarView(request):
     return render(request, 'admin/debitar.html', {'form': form})
 
 def homeView(request):
+    print("***************ADMIN")
     if "cod_cuenta" not in request.session or "rol" not in request.session:
        return redirect('usuario:login')
 
     return render(request, 'admin/index.html')
+
+def aprobarView(request, id_credito=None):
+    verify = Credito.objects.filter(cod_credito=id_credito, cod_estado=1).exists()
+    if verify:
+        credito = Credito.objects.filter(cod_credito=id_credito).first()
+        credito.cod_estado_id='2'
+        credito.save()
+
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
+       return redirect('usuario:login')
+
+    creditos = Credito.objects.filter(cod_estado=1)
+    return render(request, 'admin/aprobar.html', {"roles": creditos})
