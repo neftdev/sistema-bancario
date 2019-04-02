@@ -1,10 +1,13 @@
 {% extends 'base/base.html' %}
 
 {% block nav_items %}
-    <li class="nav_item">
+    <li class="nav-item">
       <a class="nav-link js-scroll-trigger" href="/home">Inicio</a>
     </li>
-    <li class="nav_item">
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/credito">Credito</a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link js-scroll-trigger" href="/transferencia">Transferencia</a>
     </li>
     <li class="nav-item">
@@ -36,10 +39,12 @@
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
                 <p>Tu codigo de usuario es: {{codigo}}</p>
+                </br>
+                <p>Y tu numero de cuenta es: {{cuenta}}</p>
                 <div class="col-md-12 text-center">
                     <a href="/home" class="btn btn-light btn-xl js-scroll-trigger">Ir a home</a>
                 </div>
-                <footer class="blockquote-footer">Guarda tu codigo en algun lugar seguro</footer>
+                <footer class="blockquote-footer">Guarda es informacion en algun lugar seguro</footer>
                 </blockquote>
             </div>
         </div>

@@ -6,14 +6,25 @@ from .forms import LoginForm, RegisterForm, CreditoForm
 def codigoView(request):
     if "cod_cuenta" not in request.session:
         return redirect('usuario:login')
-    return render(request, 'register/codigo.html', {'codigo': request.session["cod_cuenta"]})
+    codigo = request.session["cod_cuenta"]
+    usuario = Usuario.objects.filter(cod_usuario=codigo).first()
+    if usuario is None:
+        return redirect('usuario:login')
+    return render(request, 'register/codigo.html', {
+        'codigo': usuario.cod_usuario, 'cuenta': usuario.num_cuenta
+    })
 
 
 def registroView(request):
+    # num_cuenta
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        post_values = request.POST.copy()
+        post_values['num_cuenta'] = 10000
+        form = RegisterForm(post_values)
         if form.is_valid():
             usuario = form.save()
+            usuario.num_cuenta += usuario.cod_usuario
+            usuario.save()
             request.session["cod_cuenta"] = usuario.cod_usuario
             return redirect('usuario:codigo')
     else:
@@ -41,16 +52,16 @@ def loginView(request):
         if verify:
             objects = Usuario.objects.filter(
                 pk=codigo, nick_name=name, password=clave)
-            rol = str(objects[0].rol.nombre)
+            rol = objects[0].rol.id
 
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
 
             print("Rol: #"+str(objects[0].pk)+"#")
-            if rol == 'administrador':
+            if rol == 1:
                 request.session["rol"] = True
                 return redirect('admin:home')
-            elif rol == 'cliente':
+            elif rol == 2:
                 return redirect('usuario:home')
 
     form = LoginForm()
@@ -90,7 +101,7 @@ def transferenciaView(request):
         codigo_destino = request.POST['cuenta']
 
         usuario_destino = Usuario.objects.filter(
-            cod_usuario=codigo_destino).first()
+            num_cuenta=codigo_destino).first()
         if usuario_destino is None:
             errors.append('El codigo destino no existe o esta vacio.')
 
