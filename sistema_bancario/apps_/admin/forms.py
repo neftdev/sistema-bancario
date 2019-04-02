@@ -1,18 +1,17 @@
 from django import forms
-from apps_.usuario.models import Usuario
+from apps_.usuario.models import Usuario, Debito
 from django.utils.safestring import mark_safe
 
-class AcreditarForm(forms.ModelForm):
-    cuenta = forms.DecimalField(required=True, widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    monto = forms.DecimalField(required=True, widget=forms.NumberInput(attrs={'class': 'form-control', 'step': 0.01}))      
+class DebitoForm(forms.ModelForm):
+    #fecha = models.DateField(default=timezone.now, widget=forms.HiddenInput(default=timezone.now))
 
-    def __init__(self, *args, **kwargs):
-        super(AcreditarForm, self).__init__(*args, **kwargs)
-        #self.fields['cuenta'].queryset = Usuario.objects
-        #self.fields['cod_usuario'].queryset = Usuario.objects.extra(where=["rol_id=2"])
-        self.fields['cuenta'].label = "Cuenta"
     class Meta:
-        model = Usuario
-        fields = []
-        labels = {}
-        widgets = {}
+        model = Debito
+        fields = ['cuenta', 'monto', 'descripcion',]
+
+        labels = {'cuenta': "Cuenta", 'monto': 'Monto', 'descripcion': 'Descripcion', }
+        widgets = {
+            'cuenta': forms.NumberInput(attrs={'class': 'form-control'}),
+            'monto': forms.NumberInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
+        }
