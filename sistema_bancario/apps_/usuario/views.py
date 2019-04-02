@@ -89,7 +89,10 @@ def transferenciaView(request):
         usuario_destino = Usuario.objects.filter(
             cod_usuario=codigo_destino).first()
         if usuario_destino is None:
-            errors.append('El codigo destino no existe o esta vacio')
+            errors.append('El codigo destino no existe o esta vacio.')
+
+        if usuario_origen == usuario_destino:
+            errors.append('No puedes transferir saldo a tu misma cuenta.')
 
         if not errors:
             exito = True
