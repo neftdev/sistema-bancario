@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import registroView, loginView, homeView
-from django.conf.urls import url
+from .views import registroView, loginView, codigoView, homeView, transferenciaView, creditoView
+
 urlpatterns = [
 	path('login', loginView, name = 'login'),
     path('registro', registroView, name='registro'),
- 	path('home', homeView, name='home'),
+    path('codigo', codigoView, name='codigo'),
+    path('home', homeView, name='home'),
+    path('transferencia', transferenciaView, name='transferencia'),
+    path('credito', creditoView, name='credito'),
 ]
