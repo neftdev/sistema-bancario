@@ -1,6 +1,12 @@
 {% extends 'base/base.html' %}
 
 {% block nav_items %}
+    <li class="nav_item">
+      <a class="nav-link js-scroll-trigger" href="/home">Inicio</a>
+    </li>
+    <li class="nav_item">
+      <a class="nav-link js-scroll-trigger" href="/transferencia">Transferencia</a>
+    </li>
     <li class="nav-item">
       <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
     </li>
@@ -79,80 +85,5 @@
 		        </div>
 		    </div>
 		</div>
-
-{% comment %} <div class="row">
-    <div class="col-md-2 col-md-offset-2">
-
-    </div>
-    <div class="col-md-8 col-md-offset-4 text-right" >
-        <img src= "{{image}}"style="width:180px;height:200px;"/>
-    </div>
-</div>
-</br>
-<div class="row">
-    <div class="col-md-2 col-md-offset-2">
-
-    </div>
-    <div class="col-md-8 col-md-offset-4">
-        <form action='' method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="col-md-12 text-center">
-                <input class="btn btn-light btn-xl js-scroll-trigger" type="submit" value="Guardar Cambios">
-            </div>
-        </form>
-    </div>
-</div> {% endcomment %}
-</br>
-
-{% comment %} <section class="bg-dark text-white" id="historial">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mx-auto text-center">
-        <h2 class="section-heading text-white">Historial</h2>
-        <hr class="light my-4">
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="row">
-    <div class="col-lg-8 mx-auto text-center">
-        <hr class="light my-4">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <td>Conductor</td>
-                    <td>Hora</td>
-                    <td>Fecha</td>
-                    <td>Precio</td>
-                    <td>Status</td>
-                    <td>Metodo de pago</td>
-                    <td>Acciones</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for reservacion in reservaciones %}
-                <tr>
-                    <td>{{ reservacion.conductor }}</td>
-                    <td>{{ reservacion.hora }}</td>
-                    <td>{{ reservacion.fecha }}</td>
-                    <td>{{ reservacion.precio }}</td>
-                    <td>{{ reservacion.status }}</td>
-                    <td>{{ reservacion.met_pago }}</td>
-                    <td>
-                        <a class="btn btn-danger" href="/user/{{id}}/reservaciones/eliminar/{{ reservacion.id }}/">Cancelar</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-</br>
-<div class="col-lg-8 mx-auto text-center">
-    <a class="btn btn-primary" href="/user/{{id}}/reservaciones/crear/1/">Crear Reservacion</a>
-</div>{% endcomment %}
 </br>
 {% endblock %}

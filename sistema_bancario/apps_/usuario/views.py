@@ -62,3 +62,7 @@ def homeView(request):
     if usuario is not None:
         return render(request, 'user/index.html', {'usuario': usuario})
     return redirect('usuario:login')
+
+
+def transferenciaView(request):
+    return render(request, 'user/transferencia.html')
