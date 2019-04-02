@@ -80,7 +80,7 @@ def transferenciaView(request):
 
         monto = int(request.POST['monto'])
 
-        if not(monto > 0 and monto <= usuario_origen.monto):
+        if not(monto >= 0 and monto <= usuario_origen.monto):
             errors.append(
                 'El monto ingresado no es valido. Verifique que no sea negativo o mayor a su saldo actual.')
 

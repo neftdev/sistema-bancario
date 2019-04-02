@@ -37,11 +37,11 @@
                 {% csrf_token %}
                 {% if errors %}
                 <div class="alert alert-danger" role="alert">
-                  {% for error in errors %}
-                    <ul>
+                  <ul>
+                  {% for error in errors %}                    
                       <li>{{error}}</li>
-                    </ul>
                   {% endfor %}
+                  </ul>
                 </div>
                 {% endif %}
                 
@@ -58,7 +58,7 @@
                                     <i class="fa fa-id-card-o" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <input name="cuenta" type="number" class="form-control" placeholder="Codigo de cuenta">
+                            <input name="cuenta" type="number" min="1" class="form-control" placeholder="Codigo de cuenta">
                         </div>
                     </div>
                     <div class="form-group">
@@ -69,7 +69,7 @@
                                     <i class="fa fa-money" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <input name="monto" type="number" class="form-control" placeholder="monto">
+                            <input name="monto" type="number" min="0" class="form-control" placeholder="monto">
                         </div>
                     </div>
                     <div class="col-md-12 text-center">
