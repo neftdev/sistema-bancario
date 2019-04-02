@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Usuario, Transferencia
+from .models import Usuario, Transferencia, Credito
 from .forms import LoginForm, RegisterForm, CreditoForm
 
 
@@ -117,10 +117,13 @@ def creditoView(request):
         return redirect('usuario:login')
 
     exito = False
+    codigo_usuario = request.session["cod_cuenta"]
+
+    creditos = Credito.objects.filter(cod_usuario_id=codigo_usuario)
 
     if request.method == 'POST':
         post_values = request.POST.copy()
-        post_values['cod_usuario'] = request.session["cod_cuenta"]
+        post_values['cod_usuario'] = codigo_usuario
         post_values['cod_estado'] = 1
         form = CreditoForm(post_values)
         if form.is_valid():
@@ -130,4 +133,4 @@ def creditoView(request):
 
     else:
         form = CreditoForm()
-    return render(request, 'user/credito.html', {'form': form, 'exito': exito})
+    return render(request, 'user/credito.html', {'form': form, 'exito': exito, 'creditos': creditos})
