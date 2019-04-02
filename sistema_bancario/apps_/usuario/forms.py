@@ -1,5 +1,5 @@
 from django import forms
-from .models import Usuario
+from .models import Usuario, Credito
 from django.utils.safestring import mark_safe
 
 
@@ -68,4 +68,25 @@ class LoginForm(forms.ModelForm):
             'cod_usuario': forms.NumberInput(attrs={'class': 'form-control'}),
             'nick_name': forms.TextInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+        }
+
+
+class CreditoForm(forms.ModelForm):
+    monto = forms.DecimalField(required=True, widget=forms.NumberInput(
+        attrs={'class': 'form-control', 'min': '0.01'}))
+
+    descripcion = forms.CharField(required=True, widget=forms.Textarea(
+        attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        super(CreditoForm, self).__init__(*args, **kwargs)
+        self.fields['monto'].label = "Monto a solicitar"
+        self.fields['descripcion'].label = "Descripcion de peticion"
+
+    class Meta:
+        model = Credito
+        fields = ['monto', 'descripcion', 'cod_usuario', 'cod_estado']
+        widgets = {
+            'cod_usuario': forms.HiddenInput(),
+            'cod_estado': forms.HiddenInput(),
         }

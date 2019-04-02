@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Usuario
-from .forms import LoginForm, RegisterForm
+from .models import Usuario, Transferencia
+from .forms import LoginForm, RegisterForm, CreditoForm
 
 
 def codigoView(request):
@@ -69,7 +69,7 @@ def transferenciaView(request):
         return redirect('usuario:login')
 
     errors = []
-    
+
     if request.method == 'POST':
         codigo_origen = request.session["cod_cuenta"]
         usuario_origen = Usuario.objects.filter(
@@ -100,6 +100,31 @@ def transferenciaView(request):
             usuario_destino.monto += monto
             usuario_origen.save()
             usuario_destino.save()
+            transferencia = Transferencia(
+                monto=monto, origen_cod_usuario=usuario_origen, destino_cod_usuario=usuario_destino
+            )
+            transferencia.save()
             return render(request, 'user/transferencia.html', {'exito': exito, 'errors': errors})
 
     return render(request, 'user/transferencia.html', {'errors': errors})
+
+
+def creditoView(request):
+    if "cod_cuenta" not in request.session:
+        return redirect('usuario:login')
+
+    exito = False
+
+    if request.method == 'POST':
+        post_values = request.POST.copy()
+        post_values['cod_usuario'] = request.session["cod_cuenta"]
+        post_values['cod_estado'] = 1
+        form = CreditoForm(post_values)
+        if form.is_valid():
+            form.save()
+            exito = True
+            form = CreditoForm()
+
+    else:
+        form = CreditoForm()
+    return render(request, 'user/credito.html', {'form': form, 'exito': exito})

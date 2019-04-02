@@ -44,3 +44,27 @@ class Transferencia(models.Model):
                                            self.origen_cod_usuario,
                                            self.destino_cod_usuario,
                                            self.monto)
+
+
+class EstadoCredito(models.Model):
+    cod_estado = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=20)
+    descripcion = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return '{}'.format(self.nombre)
+
+
+class Credito(models.Model):
+    cod_credito = models.AutoField(primary_key=True)
+    monto = models.DecimalField(max_digits=6, decimal_places=2, blank=False)
+    descripcion = models.TextField(blank=False)
+    fecha = models.DateTimeField(auto_now_add=True, blank=True)
+    cod_usuario = models.ForeignKey(
+        Usuario, null=False, blank=False, on_delete=models.CASCADE)
+    cod_estado = models.ForeignKey(
+        EstadoCredito, null=False, blank=False, on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return 'Credito: {}, Monto: {}, Descripcion: {}'.format(
+            self.cod_credito, self.monto, self.descripcion)
