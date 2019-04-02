@@ -37,7 +37,7 @@ def debitarView(request):
     return render(request, 'admin/debitar.html', {'form': form})
 
 def homeView(request):
-    #if "cod_cuenta" not in request.session or "rol" not in request.session:
-    #    return redirect('usuario:login')
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
+       return redirect('usuario:login')
 
     return render(request, 'admin/index.html')
