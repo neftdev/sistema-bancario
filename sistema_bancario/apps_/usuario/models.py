@@ -28,6 +28,13 @@ class Usuario(models.Model):
     def __unicode__(self):
         return '{} ({})'.format(self.nick_name, self.correo)
 
+class Debito(models.Model):
+    cuenta = models.ForeignKey(Usuario, null=False, blank=False, on_delete=models.CASCADE)
+    monto = models.DecimalField(max_digits=6, decimal_places=2, default=0, blank=True, null=False)
+    descripcion = models.TextField(blank=True, null=True)
+    fecha = models.DateField(auto_now_add=True, blank=True)
+    def __unicode__(self):
+        return '{}'.format(self.cuenta, self.descripcion, self.fecha_reg)
 
 class Transferencia(models.Model):
     cod_transferencia = models.AutoField(primary_key=True)
@@ -68,3 +75,4 @@ class Credito(models.Model):
     def __unicode__(self):
         return 'Credito: {}, Monto: {}, Descripcion: {}'.format(
             self.cod_credito, self.monto, self.descripcion)
+
