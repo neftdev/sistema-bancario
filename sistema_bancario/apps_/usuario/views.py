@@ -19,6 +19,8 @@ def loginView(request):
     # Borrar variable de sesion
     if "cod_cuenta" in request.session:
         del request.session["cod_cuenta"]
+    if "rol" in request.session:
+        del request.session["rol"]
 
     if request.method == 'POST':
         codigo = request.POST['cod_usuario']
@@ -39,7 +41,8 @@ def loginView(request):
 
             print("Rol: #"+str(objects[0].pk)+"#")
             if rol == 'administrador':
-                return redirect('admin_:perfil')
+                request.session["rol"] = True
+                return redirect('admin:home')
             elif rol == 'cliente':
                 return redirect('usuario:home')
 

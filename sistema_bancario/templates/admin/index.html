@@ -17,39 +17,9 @@
     </div>
   </div>
 </section>
-<section class="bg-dark text-white" id="perfil">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mx-auto text-center">
-        <h2 class="section-heading text-white">Perfil</h2>
-        <hr class="light my-4">
-      </div>
-    </div>
-  </div>
-</section>
-</br>
-<div class="row">
-    <div class="col-md-2 col-md-offset-2">
-    </div>
-    <div class="col-md-8 col-md-offset-4 text-right">
-        <img src= "{{image}}"style="width:180px;height:200px;"/>
-    </div>
-</div>
-</br>
-<div class="row">
-    <div class="col-md-2 col-md-offset-2">
-    </div>
-    <div class="col-md-8 col-md-offset-4">
-        <form action='' method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="col-md-12 text-center">
-                <input class="btn btn-light btn-xl js-scroll-trigger" type="submit" value="Guardar Cambios">
-            </div>
-        </form>
-    </div>
-</div>
-</br>
+
+
+
 
 <section class="bg-dark text-white" id="historial">
   <div class="container">
@@ -58,21 +28,9 @@
         <h2 class="section-heading text-white">Opciones</h2>
         <hr class="light my-4">
         </br>
-        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:roles' id %}">Roles</a>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="/admin/acreditar">Acreditar</a>
         </br></br>
-        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:usuarios' id %}">Usuarios</a>
-        </br></br>
-        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:vehiculos' id %}">Vehículos</a>
-        </br></br>
-        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:marcas' id %}">Marcas</a>
-        </br></br>
-        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:modelos' id %}">Modelos</a>
-        </br></br>
-        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:reservaciones' id %}">Reservaciones</a>
-        </br></br>
-        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:reportes' id %}">Reportes</a>
-        </br></br>
-        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:graficas' id %}">Graficas</a>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="">Debitar</a>
         </br>
       </div>
     </div>
