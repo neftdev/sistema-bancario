@@ -57,5 +57,8 @@ def loginView(request):
 def homeView(request):
     if "cod_cuenta" not in request.session:
         return redirect('usuario:login')
-
-    return render(request, 'user/index.html')
+    codigo = request.session["cod_cuenta"]
+    usuario = Usuario.objects.filter(cod_usuario=codigo).first()
+    if usuario is not None:
+        return render(request, 'user/index.html', {'usuario': usuario})
+    return redirect('usuario:login')
