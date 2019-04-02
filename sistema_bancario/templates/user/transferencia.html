@@ -33,28 +33,43 @@
     <div class="col-md-8 col-md-offset-4">
     <div class="card">
         <div class="card-body">
-            <form method="post">
+            <form method="POST">
                 {% csrf_token %}
+                {% if errors %}
+                <div class="alert alert-danger" role="alert">
+                  {% for error in errors %}
+                    <ul>
+                      <li>{{error}}</li>
+                    </ul>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% if exito %}
+                <div class="alert alert-success" role="alert">
+                  La transferencia se realizo exitosamente.
+                </div>
+                {% endif %}
                     <div class="form-group">
-                        <label class="sr-only" for="inlineFormInputGroupUsername"></label>
+                        <label class="sr-only">Codigo de cuenta</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <i class="fa fa-id-card-o" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <input type="number" class="form-control" placeholder="Codigo de cuenta">
+                            <input name="cuenta" type="number" class="form-control" placeholder="Codigo de cuenta">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                        <label class="sr-only">Monto</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <i class="fa fa-money" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <input type="number" class="form-control" placeholder="monto">
+                            <input name="monto" type="number" class="form-control" placeholder="monto">
                         </div>
                     </div>
                     <div class="col-md-12 text-center">

@@ -65,4 +65,38 @@ def homeView(request):
 
 
 def transferenciaView(request):
-    return render(request, 'user/transferencia.html')
+    if "cod_cuenta" not in request.session:
+        return redirect('usuario:login')
+
+    errors = []
+    
+    if request.method == 'POST':
+        codigo_origen = request.session["cod_cuenta"]
+        usuario_origen = Usuario.objects.filter(
+            cod_usuario=codigo_origen).first()
+
+        if usuario_origen is None:
+            return redirect('usuario:login')
+
+        monto = int(request.POST['monto'])
+
+        if not(monto > 0 and monto <= usuario_origen.monto):
+            errors.append(
+                'El monto ingresado no es valido. Verifique que no sea negativo o mayor a su saldo actual.')
+
+        codigo_destino = request.POST['cuenta']
+
+        usuario_destino = Usuario.objects.filter(
+            cod_usuario=codigo_destino).first()
+        if usuario_destino is None:
+            errors.append('El codigo destino no existe o esta vacio')
+
+        if not errors:
+            exito = True
+            usuario_origen.monto -= monto
+            usuario_destino.monto += monto
+            usuario_origen.save()
+            usuario_destino.save()
+            return render(request, 'user/transferencia.html', {'exito': exito, 'errors': errors})
+
+    return render(request, 'user/transferencia.html', {'errors': errors})
