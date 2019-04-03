@@ -57,8 +57,10 @@ def loginView(request):
 
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
-            
+
             print("Rol: #"+str(objects[0].pk)+"#")
+            print("Rol2: #"+str(rol)+"#")
+
             if rol == 1:
                 request.session["rol"] = True
                 return redirect('admin:home')
