@@ -34,11 +34,12 @@ def registroView(request):
 
 def loginView(request):
     # Borrar variable de sesion
+    print("*******************************LOGIN")
     if "cod_cuenta" in request.session:
         del request.session["cod_cuenta"]
-    if "rol" in request.session:
-        del request.session["rol"]
-
+    # if "rol" in request.session:
+    #     del request.session["rol"]
+    # print("//algo")
     if request.method == 'POST':
         codigo = request.POST['cod_usuario']
         name = request.POST['nick_name']
@@ -65,6 +66,7 @@ def loginView(request):
                 return redirect('usuario:home')
 
     form = LoginForm()
+    print("//algo2")
     return render(request, 'login/index.html', {'form': form})
 
 

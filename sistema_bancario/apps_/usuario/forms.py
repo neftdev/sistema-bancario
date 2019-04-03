@@ -68,8 +68,7 @@ class RegisterForm(forms.ModelForm):
 
 
 class LoginForm(forms.ModelForm):
-    cod_usuario = forms.CharField(
-        widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    cod_usuario = forms.CharField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
