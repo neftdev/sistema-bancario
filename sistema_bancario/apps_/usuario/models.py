@@ -11,8 +11,8 @@ class Rol(models.Model):
 
 
 class Usuario(models.Model):
-    num_cuenta = models.AutoField(primary_key=True)
-    cod_usuario = models.BigIntegerField(unique=True)
+    cod_usuario = models.AutoField(primary_key=True)
+    num_cuenta = models.BigIntegerField(unique=True)
     full_name = models.CharField(max_length=100, blank=False, null=False)
     nick_name = models.CharField(max_length=12, unique=True, blank=False, null=False)
     correo = models.EmailField(unique=True, blank=False, null=False)
