@@ -56,7 +56,7 @@ def loginView(request):
 
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
-
+            
             print("Rol: #"+str(objects[0].pk)+"#")
             if rol == 1:
                 request.session["rol"] = True
