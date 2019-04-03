@@ -37,9 +37,9 @@ def loginView(request):
     print("*******************************LOGIN")
     if "cod_cuenta" in request.session:
         del request.session["cod_cuenta"]
-    if "rol" in request.session:
-        del request.session["rol"]
-    print("Validacion: "+str(request.method == 'POST'))
+    # if "rol" in request.session:
+    #     del request.session["rol"]
+    # print("//algo")
     if request.method == 'POST':
         codigo = request.POST['cod_usuario']
         name = request.POST['nick_name']
@@ -47,17 +47,18 @@ def loginView(request):
 
         print("Codigo: "+codigo+", Name: "+name+", Pass: "+clave)
 
-        verify = Usuario.objects.filter(pk=codigo, nick_name=name, password=clave).exists()
+        verify = Usuario.objects.filter(
+            pk=codigo, nick_name=name, password=clave).exists()
 
         if verify:
-            objects = Usuario.objects.filter(pk=codigo, nick_name=name, password=clave)
+            objects = Usuario.objects.filter(
+                pk=codigo, nick_name=name, password=clave)
             rol = objects[0].rol.id
 
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
 
             print("Rol: #"+str(objects[0].pk)+"#")
-            print("Rol2: #"+str(rol)+"#")
 
             if rol == 1:
                 request.session["rol"] = True
