@@ -11,7 +11,7 @@
       <div class="container">
             <div class="row">
                   <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="section-heading text-white">Creditos pendientes</h2>
+                    <h2 class="section-heading text-white">Usuarios</h2>
                     <hr class="light my-4">
                   </div>
             </div>
@@ -19,32 +19,32 @@
 </section>
 <div class="row">
     <div class="col-lg-1 mx-auto text-center"></div>
-    <div class="col-lg-9 mx-auto text-center">
+    <div class="col-lg-8 mx-auto text-center">
         <hr class="light my-4">
         <table class="table table-bordered">
 
-            <col style="width:1%">
-            <col style="width:5%">
-            <col style="width:50%">
-            <col style="width:50%">
+            <col style="width:4%">
+            <col style="width:4%">
+            <col style="width:4%">
+            <col style="width:17%">
+            <col style="width:20%">
             <thead>
                 <tr>
+                    <td>Codigo</td>
                     <td>Cuenta</td>
                     <td>Monto</td>
-                    <td>Descripcion</td>
-                    <td>Fecha</td>
+                    <td>Nombre</td>
+                    <td>Correo</td>
                 </tr>
             </thead>
             <tbody>
                 {% for rol in roles %}
                 <tr>
-                    <td>{{ rol.cod_usuario.pk }}</td>
+                    <td>{{ rol.cod_usuario }}</td>
+                    <td>{{ rol.num_cuenta }}</td>
                     <td>{{ rol.monto }}</td>
-                    <td>{{ rol.descripcion }}</td>
-                    <td>{{ rol.fecha }}</td>
-                    <td>
-                        <a class="btn btn-danger" href="/admin/aprobar/{{ rol.cod_credito }}">Aprobar</a>
-                    </td>
+                    <td>{{ rol.nick_name }}</td>
+                    <td>{{ rol.correo }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -55,7 +55,6 @@
 
 </br>
 <div class="col-lg-8 mx-auto text-center">
-    <a class="btn btn-primary" href="/admin/reportes/creditos">Creditos activos</a>
     <a class="btn btn-primary" href="/admin/home">Home Admin</a>
 </div>
 </br>
