@@ -7,7 +7,7 @@ def codigoView(request):
     if "cod_cuenta" not in request.session or "rol" not in request.session:
         return redirect('usuario:login')
     if request.session["rol"] != 2:
-        return redirect('usuario:login')
+        return redirect('admin:home')
     codigo = request.session["cod_cuenta"]
     usuario = Usuario.objects.filter(cod_usuario=codigo).first()
     if usuario is None:
@@ -80,7 +80,7 @@ def homeView(request):
     if "cod_cuenta" not in request.session or "rol" not in request.session:
         return redirect('usuario:login')
     if request.session["rol"] != 2:
-        return redirect('usuario:login')
+        return redirect('admin:home')
     codigo = request.session["cod_cuenta"]
     usuario = Usuario.objects.filter(cod_usuario=codigo).first()
     if usuario is not None:
@@ -92,7 +92,7 @@ def transferenciaView(request):
     if "cod_cuenta" not in request.session or "rol" not in request.session:
         return redirect('usuario:login')
     if request.session["rol"] != 2:
-        return redirect('usuario:login')
+        return redirect('admin:home')
     errors = []
 
     if request.method == 'POST':
@@ -138,7 +138,7 @@ def creditoView(request):
     if "cod_cuenta" not in request.session or "rol" not in request.session:
         return redirect('usuario:login')
     if request.session["rol"] != 2:
-        return redirect('usuario:login')
+        return redirect('admin:home')
     exito = False
     codigo_usuario = request.session["cod_cuenta"]
 
