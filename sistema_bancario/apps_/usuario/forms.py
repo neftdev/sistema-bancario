@@ -36,7 +36,6 @@ class RegisterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
-        self.initial['rol'] = '2'
         self.fields['full_name'].label = "Nombre Completo"
         self.fields['nick_name'].label = "Username"
         self.fields['correo'].label = "Correo Electrónico"

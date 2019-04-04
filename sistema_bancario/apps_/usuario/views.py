@@ -20,8 +20,11 @@ def registroView(request):
     if request.method == 'POST':
         post_values = request.POST.copy()
         post_values['num_cuenta'] = 10000
+        post_values['rol'] = 2
         form = RegisterForm(post_values)
+        # print("POST: "+str(post_values))
         if form.is_valid():
+            print("VALID")
             usuario = form.save()
             usuario.num_cuenta += usuario.cod_usuario
             usuario.save()
@@ -34,18 +37,18 @@ def registroView(request):
 
 def loginView(request):
     # Borrar variable de sesion
-    print("*******************************LOGIN")
+    #print("*******************************LOGIN")
     if "cod_cuenta" in request.session:
         del request.session["cod_cuenta"]
     if "rol" in request.session:
         del request.session["rol"]
-    # print("//algo")
+    # #print("//algo")
     if request.method == 'POST':
         codigo = request.POST['cod_usuario']
         name = request.POST['nick_name']
         clave = request.POST['password']
 
-        print("Codigo: "+codigo+", Name: "+name+", Pass: "+clave)
+        #print("Codigo: "+codigo+", Name: "+name+", Pass: "+clave)
 
         verify = Usuario.objects.filter(
             pk=codigo, nick_name=name, password=clave).exists()
@@ -58,7 +61,7 @@ def loginView(request):
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
             request.session["rol"] = rol
-            print("Rol: #"+str(objects[0].pk)+"#")
+            #print("Rol: #"+str(objects[0].pk)+"#")
             if rol == 1:
                 return redirect('admin:home')
             elif rol == 2:
@@ -66,7 +69,7 @@ def loginView(request):
                 return redirect('usuario:home')
 
     form = LoginForm()
-    print("//algo2")
+    #print("//algo2")
     return render(request, 'login/index.html', {'form': form})
 
 
