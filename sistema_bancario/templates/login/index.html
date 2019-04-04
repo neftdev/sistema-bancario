@@ -27,6 +27,11 @@
     </div>
     <div class="col-md-8 col-md-offset-4">
         <form method="post">
+            {% if error %}
+              <div class="alert alert-danger" role="alert">
+                {{error}}
+              </div>
+            {% endif %}
             {% csrf_token %}
             {{ form.as_p }}
             <div class="col-md-12 text-center">

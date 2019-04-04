@@ -22,7 +22,7 @@ class RegisterForm(forms.ModelForm):
         attrs={'class': 'form-control'}))
 
     password = forms.CharField(
-        min_length=8, widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        min_length=2, max_length=8, widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         validators=[
             RegexValidator(
                 regex='^[a-zA-Z0-9]*$',
@@ -36,7 +36,6 @@ class RegisterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
-        self.initial['rol'] = '2'
         self.fields['full_name'].label = "Nombre Completo"
         self.fields['nick_name'].label = "Username"
         self.fields['correo'].label = "Correo Electrónico"

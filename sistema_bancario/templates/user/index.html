@@ -10,9 +10,17 @@
     <li class="nav-item">
       <a class="nav-link js-scroll-trigger" href="/transferencia">Transferencia</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
-    </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{usuario_logueado.nick_name}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item">Cuenta: {{usuario_logueado.num_cuenta}}</a>
+          <a class="dropdown-item">Codigo: {{usuario_logueado.cod_usuario}}</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/login">Logout</a>
+        </div>
+      </li>
 {% endblock %}
 
 {% block content %}
@@ -39,61 +47,71 @@
   </div>
 </section>
 </br>
-<div class="col-md-9">
+<div class="row">
+<div id="div" class="col-md-2 col-md-offset-2">
+</div>
+<div class="col-md-8 col-md-offset-4">
 		    <div class="card">
-		        <div class="card-body">
-		            <div class="row">
-		                <div class="col-md-12">
-		                    <form>
+          <div class="card-body">
+            <form>
+              <div class="form-group row">
+                <div class="col-4">
+                  <label for="username">Codigo</label> 
+                </div>
+                <div class="col-8">
+                  <input placeholder="{{usuario.cod_usuario}}" class="form-control" type="text" readonly>
+                </div>
+              </div>
 
-                              <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Codigo</label> 
-                                <div class="col-8">
-                                  <input placeholder="{{usuario.cod_usuario}}" class="form-control" type="text" readonly>
-                                </div>
-                              </div>
+              <div class="form-group row">
+                <div class="col-4">
+                  <label for="username">Numero de cuenta</label>
+                </div>
+                <div class="col-8">
+                  <input placeholder="{{usuario.num_cuenta}}" class="form-control" type="text" readonly>
+                </div>
+              </div>
 
-                              <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Numero de cuenta</label> 
-                                <div class="col-8">
-                                  <input placeholder="{{usuario.num_cuenta}}" class="form-control" type="text" readonly>
-                                </div>
-                              </div>
+              <div class="form-group row">
+                <div class="col-4">
+                  <label for="username">Nombre</label>
+                </div>
+                <div class="col-8">
+                  <input placeholder="{{usuario.full_name}}" class="form-control" type="text" readonly>
+                </div>
+              </div>
 
-                              <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Nombre</label> 
-                                <div class="col-8">
-                                  <input placeholder="{{usuario.full_name}}" class="form-control" type="text" readonly>
-                                </div>
-                              </div>
+              <div class="form-group row">
+                <div class="col-4">
+                  <label for="username">Nickname</label> 
+                </div>
+                <div class="col-8">
+                    <input placeholder="{{usuario.nick_name}}" class="form-control" type="text" readonly>
+                </div>
+              </div>
 
-                              <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Nickname</label> 
-                                <div class="col-8">
-                                  <input placeholder="{{usuario.nick_name}}" class="form-control" type="text" readonly>
-                                </div>
-                              </div>
+              <div class="form-group row">
+                <div class="col-4">
+                  <label for="username">Corre Electronico</label>
+                </div>
+                <div class="col-8">
+                  <input placeholder="{{usuario.correo}}" class="form-control" type="text" readonly>
+                </div>
+              </div>
 
-                              <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Corre Electronico</label> 
-                                <div class="col-8">
-                                  <input placeholder="{{usuario.correo}}" class="form-control" type="text" readonly>
-                                </div>
-                              </div>
+              <div class="form-group row">
+                <div class="col-4">
+                  <label for="username">Saldo</label>
+                </div>
+                <div class="col-8">
+                    <input placeholder="{{usuario.monto}}" class="form-control" type="text" readonly>
+                </div>
+              </div>
+            </form>
+		      </div>
+		  </div>
+  </div>
+</div>
 
-                              <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Saldo</label> 
-                                <div class="col-8">
-                                  <input placeholder="{{usuario.monto}}" class="form-control" type="text" readonly>
-                                </div>
-                              </div>
-
-                        </form>
-		                </div>
-		            </div>
-		            
-		        </div>
-		    </div>
-		</div>
 </br>
 {% endblock %}
