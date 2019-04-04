@@ -1,3 +1,105 @@
-from django.test import TestCase
+from django.test import Client, TestCase, SimpleTestCase
+from .models import Usuario, Rol
 
-# Create your tests here.
+
+class UsuarioLoginTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.rol1 = Rol(nombre="Administrador", descripcion=" ")
+        cls.rol1.save()
+        cls.rol2 = Rol(nombre="Cliente", descripcion=" ")
+        cls.rol2.save()
+        Usuario(
+            num_cuenta=10001,
+            full_name="admin",
+            nick_name="admin",
+            correo="admin@gmail.com",
+            password="12121212",
+            monto="1000",
+            rol=cls.rol1
+        ).save()
+        Usuario(
+            num_cuenta=10002,
+            full_name="ronald",
+            nick_name="ronald",
+            correo="ronald@gmail.com",
+            password="12345678",
+            monto="1000",
+            rol=cls.rol2
+        ).save()
+
+    def test_login_get(self):
+        response = self.client.get('/login')
+        self.assertEqual(response.status_code, 200,
+                         'Peticion correcta al login')
+
+    def test_login_post(self):
+        # Peticion post al login
+        response = self.client.post(
+            '/login', {'cod_usuario': 45, 'password': '12345678', 'nick_name': 'ronald'})
+
+        # Como el codigo de usuario no es le correcto el usuario no deberia loguearse
+        self.assertEqual(response.status_code, 200,
+                         'No deberia ingresar ya el codigo de usuario no es el correcto')
+
+        # Se comprueba que el usuario exista, antes de probar el login
+        existe = Usuario.objects.filter(
+            cod_usuario=2, nick_name="ronald", password="12345678").exists()
+        self.assertEqual(existe, True, 'El usuario existe')
+
+        # Se realiza una peticion post con un usuario existente
+        response = self.client.post(
+            '/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
+
+        # Los datos deben ser correctos, por lo tanto se tiene que mostrar la pagina de inicio
+        # Debe mostrar el home para el cliente
+        self.assertRedirects(
+            response, '/home', status_code=302, target_status_code=200,
+            fetch_redirect_response=True
+        )
+
+        # Se realiza una peticion post con un datos de usuario administrador
+        response = self.client.post(
+            '/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
+
+        # Debe mostra el home para el administrador
+        self.assertRedirects(
+            response, '/admin/home', status_code=302, target_status_code=200,
+            fetch_redirect_response=True
+        )
+
+    def test_verificar_acceso_a_paginas_admin(self):
+        response = self.client.post(
+            '/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
+        response = self.client.get('/admin/acreditar')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina acreditar')
+        response = self.client.get('/admin/debitar')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina debitar')
+        response = self.client.get('/admin/home')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina admin.home')
+        response = self.client.get('/admin/reportes/usuarios')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina reporte.usuarios')
+        response = self.client.get('/admin/reportes/creditos')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina reporte.creditos')
+
+    def test_verificar_acceso_a_paginas_cliente(self):
+        response = self.client.post(
+            '/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
+        response = self.client.get('/codigo')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina codigo')
+        response = self.client.get('/transferencia')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina de transferencia')
+        response = self.client.get('/home')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina home')
+        response = self.client.get('/credito')
+        self.assertEqual(response.status_code, 200,
+                         'No funciona la pagina de creditos')
