@@ -22,8 +22,11 @@ def registroView(request):
     if request.method == 'POST':
         post_values = request.POST.copy()
         post_values['num_cuenta'] = 10000
+        post_values['rol'] = 2
         form = RegisterForm(post_values)
+        # print("POST: "+str(post_values))
         if form.is_valid():
+            print("VALID")
             usuario = form.save()
             usuario.num_cuenta += usuario.cod_usuario
             usuario.save()
@@ -60,19 +63,17 @@ def loginView(request):
 
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
-
-            # print("Rol: #"+str(objects[0].pk)+"#")
-
+            request.session["rol"] = rol
+            #print("Rol: #"+str(objects[0].pk)+"#")
             if rol == 1:
-                request.session["rol"] = 1
                 return redirect('admin:home')
             elif rol == 2:
-                request.session["rol"] = 2
-                return redirect('usuario:home') 
-        error = "Error de autenticacion. Los datos ingresados no coinciden con nuestros registros."
+
+                return redirect('usuario:home')
+
     form = LoginForm()
-    # print("//algo2")
-    return render(request, 'login/index.html', {'form': form, 'error': error})
+    #print("//algo2")
+    return render(request, 'login/index.html', {'form': form})
 
 
 def homeView(request):

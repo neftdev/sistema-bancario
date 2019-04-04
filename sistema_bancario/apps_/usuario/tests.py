@@ -100,3 +100,22 @@ class UsuarioLoginTest(TestCase):
         response = self.client.get('/credito')
         self.assertEqual(response.status_code, 200,
                          'No funciona la pagina de creditos')
+        
+    #***********************************************TESTS DE REGISTRO
+
+    def test_registro_get(self):
+        response = self.client.get('/register')
+        self.assertEqual(response.status_code, 200, 'Peticion incorrecta al registro')
+
+    def test_registro_post(self):
+        # Peticion post al registro enviando datos de formulario
+        response = self.client.post('/registro', 
+            {'nick_name': 'prueba1', 
+            'full_name': 'Prueba Unitaria', 
+            'correo': 'prueba@prueba.com', 
+            'password': '12345678!', 
+            'confirm_password': '12345678'})
+
+        #Verificar si es valido
+        self.assertRedirects(response, '/codigo', status_code=302, target_status_code=200,
+            fetch_redirect_response=True)
