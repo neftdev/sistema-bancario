@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+      <div class="container">
+            <div class="row">
+                  <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">Usuarios</h2>
+                    <hr class="light my-4">
+                  </div>
+            </div>
+      </div>
+</section>
+<div class="row">
+    <div class="col-lg-12 mx-auto text-center">
+        <hr class="light my-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Rol</td>
+                    <td>Nombre</td>
+                    <td>Telefono</td>
+                    <td>Correo Elect.</td>
+                    <td>Foto</td>
+                    <td>Password</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rol in roles %}
+                <tr>
+                    <td>{{ rol.rol }}</td>
+                    <td>{{ rol.nombre }}</td>
+                    <td>{{ rol.correo_e }}</td>
+                    <td>{{ rol.dir }}</td>
+                    <td>{{ rol.telefono }}</td>
+                    <td><img src= "/media/{{rol.foto}}"style="width:180px;height:200px;"/></td>
+                    <td>
+                        <a class="btn btn-primary" href="/admin/{{id}}/usuarios/editar/{{ rol.id }}">Editar</a>
+                        <a class="btn btn-danger" href="/admin/{{id}}/usuarios/eliminar/{{ rol.id }}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary" href="/admin/{{id}}/usuarios/crear/1">Crear</a>
+    <a class="btn btn-primary" href="/admin/{{id}}">Home Admin</a>
+</div>
+</br>
+
+
+{% endblock %}

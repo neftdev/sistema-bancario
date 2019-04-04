@@ -1,0 +1,2 @@
+DROP DATABASE banco_ayd1;
+CREATE DATABASE banco_ayd1;

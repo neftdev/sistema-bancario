@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Panel Administrador</h2>
+        <hr class="light my-4">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="bg-dark text-white" id="historial">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Opciones</h2>
+        <hr class="light my-4">
+        </br>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="/admin/acreditar">Acreditar</a>
+        </br></br>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="/admin/debitar">Debitar</a>
+        </br></br>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="/admin/aprobar/0">Créditos Pendientes</a>
+        </br></br>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="/admin/reportes/usuarios">Usuarios</a>
+        </br>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-primary">
+</section>
+{% endblock %}

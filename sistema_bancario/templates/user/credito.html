@@ -1,0 +1,111 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/home">Inicio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/credito">Credito</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/transferencia">Transferencia</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{usuario_logueado.nick_name}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item">Cuenta: {{usuario_logueado.num_cuenta}}</a>
+          <a class="dropdown-item">Codigo: {{usuario_logueado.cod_usuario}}</a>
+          <div class="dropdown-divider"></div>
+          <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+        </div>
+      </li>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<section class="bg-dark text-white" id="credito">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Peticion de Credito</h2>
+        <hr class="light my-4">
+        </br>
+        <div class="row">
+          <div class="col">Codigo: {{usuario_logueado.cod_usuario}}</div>
+          <div class="col">Numero de Cuenta: {{usuario_logueado.num_cuenta}}</div>
+          <div class="col">Username: {{usuario_logueado.nick_name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</br>
+<div class="row">
+    <div class="col-md-2 col-md-offset-2">
+    </div>
+    <div class="col-md-8 col-md-offset-4">
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                
+                {% if exito %}
+                <div class="alert alert-success" role="alert">
+                  Se envio la peticion exitosamente.
+                </div>
+                {% endif %}
+                {{ form.as_p }}
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-light btn-xl js-scroll-trigger">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+</br>
+{% if creditos %}
+<section class="bg-dark text-white" id="reporte">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Reporte de creditos</h2>
+        <hr class="light my-4">
+      </div>
+    </div>
+  </div>
+</section>
+</br>
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+      <hr class="light my-4">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Fecha de peticion</th>
+                    <th scope="col">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for credito in creditos %}
+                <tr>
+                    <td>{{ credito.monto }}</td>
+                    <td>{{ credito.descripcion }}</td>
+                    <td>{{ credito.fecha }}</td>
+                    <td>{{ credito.cod_estado.nombre }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>    
+    </div>
+</div>
+</br>
+{% endif %}
+{% endblock %}

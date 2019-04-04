@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Graficas</h2>
+        <hr class="light my-4">
+      </div>
+    </div>
+  </div>
+</section>
+</br>
+
+<section class="bg-dark text-white" id="historial">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <hr class="light my-4">
+        </br>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:graf_viajes_completados' id %}">Porcentaje - Viajes completados por mes</a>
+        </br></br>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:graf_viajes_cancelados' id %}">Porcentaje - Viajes cancelados por mes</a>
+        </br></br>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:graf_metodos_pago' id %}">Porcentaje - Utilizacion de metodos de pago</a>
+        </br></br>
+        <a class="btn btn-light btn-xl js-scroll-trigger" href="{% url 'admin_:graf_conductores' id %}">Barras - Conductores que mas han ganado</a>
+        </br>
+      </div>
+    </div>
+  </div>
+</section>
+</br></br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary btn-xl js-scroll-trigger" href="/admin/{{id}}">Home Admin</a>
+</div>
+</br></br>
+<section class="bg-primary">
+</section>
+{% endblock %}

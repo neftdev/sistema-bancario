@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro" xmlns="http://www.w3.org/1999/html">
+      <div class="container">
+            <div class="row">
+                  <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">Usuarios</h2>
+                    <hr class="light my-4">
+                  </div>
+            </div>
+      </div>
+</section>
+<div class="row">
+    <div class="col-lg-1 mx-auto text-center"></div>
+    <div class="col-lg-8 mx-auto text-center">
+        <hr class="light my-4">
+        <table class="table table-bordered">
+
+            <col style="width:4%">
+            <col style="width:4%">
+            <col style="width:4%">
+            <col style="width:17%">
+            <col style="width:20%">
+            <thead>
+                <tr>
+                    <td>Codigo</td>
+                    <td>Cuenta</td>
+                    <td>Monto</td>
+                    <td>Nombre</td>
+                    <td>Correo</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rol in roles %}
+                <tr>
+                    <td>{{ rol.cod_usuario }}</td>
+                    <td>{{ rol.num_cuenta }}</td>
+                    <td>{{ rol.monto }}</td>
+                    <td>{{ rol.nick_name }}</td>
+                    <td>{{ rol.correo }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-1 mx-auto text-center"></div>
+</div>
+
+</br>
+<div class="col-lg-8 mx-auto text-center">
+    <a class="btn btn-primary" href="/admin/home">Home Admin</a>
+</div>
+</br>
+
+
+{% endblock %}

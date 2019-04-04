@@ -1,0 +1,102 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/home">Inicio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/credito">Credito</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/transferencia">Transferencia</a>
+    </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{usuario_logueado.nick_name}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item">Cuenta: {{usuario_logueado.num_cuenta}}</a>
+          <a class="dropdown-item">Codigo: {{usuario_logueado.cod_usuario}}</a>
+          <div class="dropdown-divider"></div>
+          <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+        </div>
+      </li>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<section class="bg-dark text-white" id="transferencia">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Transferencia</h2>
+        <hr class="light my-4">
+        </br>
+        <div class="row">
+          <div class="col">Codigo: {{usuario_logueado.cod_usuario}}</div>
+          <div class="col">Numero de Cuenta: {{usuario_logueado.num_cuenta}}</div>
+          <div class="col">Username: {{usuario_logueado.nick_name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</br>
+<div class="row">
+    <div class="col-md-2 col-md-offset-2">
+    </div>
+    <div class="col-md-8 col-md-offset-4">
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {% if errors %}
+                <div class="alert alert-danger" role="alert">
+                  <ul>
+                  {% for error in errors %}                    
+                      <li>{{error}}</li>
+                  {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+                
+                {% if exito %}
+                <div class="alert alert-success" role="alert">
+                  La transferencia se realizo exitosamente.
+                </div>
+                {% endif %}
+                    <div class="form-group">
+                        <label class="sr-only">Numero de cuenta destino</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <input name="cuenta" type="number" min="10001" class="form-control" placeholder="Codigo de cuenta">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">Monto a transferir</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <input name="monto" type="number" min="0" class="form-control" placeholder="monto">
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-light btn-xl js-scroll-trigger">Aceptar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+</br>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+
+{% block nav_items %}
+  <li class="nav-item">
+    <a class="nav-link js-scroll-trigger" href="/registro">Registro</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link js-scroll-trigger" href="/login">Login</a>
+  </li>
+{% endblock %}
+
+{% block content %}
+<section class="bg-primary" id="registro">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Login</h2>
+        <hr class="light my-4">
+      </div>
+    </div>
+  </div>
+</section>
+
+</br>
+<div class="row">
+    <div class="col-md-2 col-md-offset-2">
+    </div>
+    <div class="col-md-8 col-md-offset-4">
+        <form method="post">
+            {% if error %}
+              <div class="alert alert-danger" role="alert">
+                {{error}}
+              </div>
+            {% endif %}
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="col-md-12 text-center">
+                <input class="btn btn-light btn-xl js-scroll-trigger" type="submit" value="Ingresar">
+            </div>
+        </form>
+    </div>
+</div>
+</br>
+{% endblock %}
