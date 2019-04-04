@@ -16,4 +16,6 @@ VALUES
 
 INSERT INTO usuario_usuario(full_name, num_cuenta, nick_name, correo, password, monto, rol_id)
 VALUES
-("admin", 10001, "admin", "admin@gmail.com", "12121212", 0, 1);
+("admin", 10001, "admin", "admin@gmail.com", "1234abcd", 0, 1),
+("ronald", 10002, "Ronald Berduo", "ronald@gmail.com", "1234abcd", 100, 2),
+("mario", 10003, "Mario Morales", "mario@gmail.com", "1234abcd", 100, 2);

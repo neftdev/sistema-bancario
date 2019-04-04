@@ -37,8 +37,8 @@ def loginView(request):
     print("*******************************LOGIN")
     if "cod_cuenta" in request.session:
         del request.session["cod_cuenta"]
-    # if "rol" in request.session:
-    #     del request.session["rol"]
+    if "rol" in request.session:
+        del request.session["rol"]
     # print("//algo")
     if request.method == 'POST':
         codigo = request.POST['cod_usuario']
@@ -57,13 +57,12 @@ def loginView(request):
 
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
-
+            request.session["rol"] = rol
             print("Rol: #"+str(objects[0].pk)+"#")
-
             if rol == 1:
-                request.session["rol"] = True
                 return redirect('admin:home')
             elif rol == 2:
+
                 return redirect('usuario:home')
 
     form = LoginForm()
