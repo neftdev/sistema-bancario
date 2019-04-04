@@ -16,7 +16,7 @@ class Usuario(models.Model):
     full_name   = models.CharField(max_length=100, blank=False, null=False)
     nick_name   = models.CharField(max_length=12, unique=True, blank=False, null=False)
     correo      = models.EmailField(unique=True, blank=False, null=False)
-    password    = models.CharField(max_length=20, blank=False, null=False)
+    password    = models.CharField(max_length=8, blank=False, null=False)
     monto       = models.DecimalField(max_digits=6, decimal_places=2, default=0, blank=True, null=False)
     rol         = models.ForeignKey(Rol, null=False, blank=False, on_delete=models.CASCADE)
 

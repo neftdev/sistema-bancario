@@ -4,7 +4,9 @@ from .forms import LoginForm, RegisterForm, CreditoForm
 
 
 def codigoView(request):
-    if "cod_cuenta" not in request.session:
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
+        return redirect('usuario:login')
+    if request.session["rol"] != 2:
         return redirect('usuario:login')
     codigo = request.session["cod_cuenta"]
     usuario = Usuario.objects.filter(cod_usuario=codigo).first()
@@ -26,6 +28,7 @@ def registroView(request):
             usuario.num_cuenta += usuario.cod_usuario
             usuario.save()
             request.session["cod_cuenta"] = usuario.cod_usuario
+            request.session["rol"] = usuario.rol
             return redirect('usuario:codigo')
     else:
         form = RegisterForm()
@@ -34,22 +37,22 @@ def registroView(request):
 
 def loginView(request):
     # Borrar variable de sesion
-    print("*******************************LOGIN")
+    # print("*******************************LOGIN")
     if "cod_cuenta" in request.session:
         del request.session["cod_cuenta"]
-    # if "rol" in request.session:
-    #     del request.session["rol"]
+    if "rol" in request.session:
+        del request.session["rol"]
     # print("//algo")
+    error = None
     if request.method == 'POST':
         codigo = request.POST['cod_usuario']
         name = request.POST['nick_name']
         clave = request.POST['password']
 
-        print("Codigo: "+codigo+", Name: "+name+", Pass: "+clave)
+        # print("Codigo: "+codigo+", Name: "+name+", Pass: "+clave)
 
         verify = Usuario.objects.filter(
-            pk=codigo, nick_name=name, password=clave).exists()
-
+            pk=codigo, nick_name=name, password=clave).exists()        
         if verify:
             objects = Usuario.objects.filter(
                 pk=codigo, nick_name=name, password=clave)
@@ -58,21 +61,24 @@ def loginView(request):
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
 
-            print("Rol: #"+str(objects[0].pk)+"#")
+            # print("Rol: #"+str(objects[0].pk)+"#")
 
             if rol == 1:
-                request.session["rol"] = True
+                request.session["rol"] = 1
                 return redirect('admin:home')
             elif rol == 2:
-                return redirect('usuario:home')
-
+                request.session["rol"] = 2
+                return redirect('usuario:home') 
+        error = "Error de autenticacion. Los datos ingresados no coinciden con nuestros registros."
     form = LoginForm()
-    print("//algo2")
-    return render(request, 'login/index.html', {'form': form})
+    # print("//algo2")
+    return render(request, 'login/index.html', {'form': form, 'error': error})
 
 
 def homeView(request):
-    if "cod_cuenta" not in request.session:
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
+        return redirect('usuario:login')
+    if request.session["rol"] != 2:
         return redirect('usuario:login')
     codigo = request.session["cod_cuenta"]
     usuario = Usuario.objects.filter(cod_usuario=codigo).first()
@@ -82,9 +88,10 @@ def homeView(request):
 
 
 def transferenciaView(request):
-    if "cod_cuenta" not in request.session:
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
         return redirect('usuario:login')
-
+    if request.session["rol"] != 2:
+        return redirect('usuario:login')
     errors = []
 
     if request.method == 'POST':
@@ -127,9 +134,10 @@ def transferenciaView(request):
 
 
 def creditoView(request):
-    if "cod_cuenta" not in request.session:
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
         return redirect('usuario:login')
-
+    if request.session["rol"] != 2:
+        return redirect('usuario:login')
     exito = False
     codigo_usuario = request.session["cod_cuenta"]
 

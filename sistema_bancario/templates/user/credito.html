@@ -10,9 +10,17 @@
     <li class="nav-item">
       <a class="nav-link js-scroll-trigger" href="/transferencia">Transferencia</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
-    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{usuario_logueado.nick_name}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item">Cuenta: {{usuario_logueado.num_cuenta}}</a>
+          <a class="dropdown-item">Codigo: {{usuario_logueado.cod_usuario}}</a>
+          <div class="dropdown-divider"></div>
+          <a class="nav-link js-scroll-trigger" href="/login">Logout</a>
+        </div>
+      </li>
 {% endblock %}
 
 {% block header %}
