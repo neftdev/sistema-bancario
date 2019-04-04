@@ -32,9 +32,9 @@ class UsuarioLoginTest(TestCase):
     def test_login_get(self):
         response = self.client.get('/login')
         self.assertEqual(response.status_code, 200,
-                         'Peticion correcta al login')
+                         'Peticion incorrecta al login')
 
-    def test_login_post(self):
+    def test_login_comprobacion_de_usuario_no_existente(self):
         # Peticion post al login
         response = self.client.post(
             '/login', {'cod_usuario': 45, 'password': '12345678', 'nick_name': 'ronald'})
@@ -43,11 +43,7 @@ class UsuarioLoginTest(TestCase):
         self.assertEqual(response.status_code, 200,
                          'No deberia ingresar ya el codigo de usuario no es el correcto')
 
-        # Se comprueba que el usuario exista, antes de probar el login
-        existe = Usuario.objects.filter(
-            cod_usuario=2, nick_name="ronald", password="12345678").exists()
-        self.assertEqual(existe, True, 'El usuario existe')
-
+    def test_login_cliente(self):
         # Se realiza una peticion post con un usuario existente
         response = self.client.post(
             '/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
@@ -59,6 +55,7 @@ class UsuarioLoginTest(TestCase):
             fetch_redirect_response=True
         )
 
+    def test_login_admin(self):
         # Se realiza una peticion post con un datos de usuario administrador
         response = self.client.post(
             '/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
