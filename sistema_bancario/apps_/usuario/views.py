@@ -55,7 +55,7 @@ def loginView(request):
         # print("Codigo: "+codigo+", Name: "+name+", Pass: "+clave)
 
         verify = Usuario.objects.filter(
-            pk=codigo, nick_name=name, password=clave).exists()        
+            pk=codigo, nick_name=name, password=clave).exists()
         if verify:
             objects = Usuario.objects.filter(
                 pk=codigo, nick_name=name, password=clave)
@@ -64,7 +64,7 @@ def loginView(request):
             # CREACIONES DE VARIABLE DE SESION
             request.session["cod_cuenta"] = str(objects[0].pk)
             request.session["rol"] = rol
-            #print("Rol: #"+str(objects[0].pk)+"#")
+            # print("Rol: #"+str(objects[0].pk)+"#")
             if rol == 1:
                 return redirect('admin:home')
             elif rol == 2:
@@ -72,7 +72,7 @@ def loginView(request):
                 return redirect('usuario:home')
 
     form = LoginForm()
-    #print("//algo2")
+    # print("//algo2")
     return render(request, 'login/index.html', {'form': form})
 
 
