@@ -97,6 +97,17 @@ def repUsuariosView(request):
     usuarios = Usuario.objects.filter(rol_id=2)
     return render(request, 'admin/reportes/usuarios.html', {"roles": usuarios})
 
+def eliminarUsuarioView(request, cod_usuario=None):
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
+       return redirect('usuario:login')
+    verify = Usuario.objects.filter(pk=cod_usuario).exists()
+    if verify:
+        credito = Usuario.objects.get(pk=cod_usuario).delete()
+    usuarios = Usuario.objects.filter(rol_id=2)
+    return render(request, 'admin/reportes/usuarios.html', {"roles": usuarios})
+
+
+
 def repCreditosView(request):
     ##************************************************VALIDAR ACCESO
     if "cod_cuenta" not in request.session or "rol" not in request.session:
