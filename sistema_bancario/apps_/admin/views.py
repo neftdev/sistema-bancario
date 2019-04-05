@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from apps_.usuario.models import Usuario, Credito, Debito
-from apps_.admin.forms import DebitoForm
+from .forms import DebitoForm
 import math
 # from .models import Debito
 # Create your views here.
@@ -93,6 +93,29 @@ def aprobarView(request, id_credito=None):
         credito = Credito.objects.filter(cod_credito=id_credito).first()
         credito.cod_estado_id = '2'
         credito.save()
+        usuario = credito.cod_usuario
+        usuario.monto += credito.monto
+        usuario.save()
+        return redirect('admin:rep_creditos')
+
+    creditos = Credito.objects.filter(cod_estado=1)
+    return render(request, 'admin/aprobar.html', {"roles": creditos})
+
+
+def cancelarView(request, id_credito=None):
+    # ************************************************VALIDAR ACCESO
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
+        return redirect('usuario:login')
+    if request.session["rol"] != 1:
+        return redirect('usuario:login')
+    ##
+    verify = Credito.objects.filter(
+        cod_credito=id_credito, cod_estado=1).exists()
+    if verify:
+        credito = Credito.objects.filter(cod_credito=id_credito).first()
+        credito.cod_estado_id = '3'
+        credito.save()
+        return redirect('admin:rep_creditos_cancelados')
 
     creditos = Credito.objects.filter(cod_estado=1)
     return render(request, 'admin/aprobar.html', {"roles": creditos})
@@ -127,4 +150,15 @@ def repCreditosView(request):
         return redirect('usuario:login')
     ##
     creditos = Credito.objects.filter(cod_estado=2)
-    return render(request, 'admin/reportes/creditos.html', {"roles": creditos})
+    return render(request, 'admin/reportes/creditos.html', {"roles": creditos, "titulo": "aprobados"})
+
+
+def repCreditosCanceladosView(request):
+    # ************************************************VALIDAR ACCESO
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
+        return redirect('usuario:login')
+    if request.session["rol"] != 1:
+        return redirect('usuario:login')
+    ##
+    creditos = Credito.objects.filter(cod_estado=3)
+    return render(request, 'admin/reportes/creditos.html', {"roles": creditos, "titulo": "cancelados"})
