@@ -104,7 +104,7 @@ class UsuarioLoginTest(TestCase):
     #***********************************************TESTS DE REGISTRO
 
     def test_registro_get(self):
-        response = self.client.get('/register')
+        response = self.client.get('/registro')
         self.assertEqual(response.status_code, 200, 'Peticion incorrecta al registro')
 
     def test_registro_post(self):
@@ -113,7 +113,7 @@ class UsuarioLoginTest(TestCase):
             {'nick_name': 'prueba1', 
             'full_name': 'Prueba Unitaria', 
             'correo': 'prueba@prueba.com', 
-            'password': '12345678!', 
+            'password': '12345678', 
             'confirm_password': '12345678'})
 
         #Verificar si es valido
