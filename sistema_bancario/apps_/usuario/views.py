@@ -31,7 +31,7 @@ def registroView(request):
             usuario.num_cuenta += usuario.cod_usuario
             usuario.save()
             request.session["cod_cuenta"] = usuario.cod_usuario
-            request.session["rol"] = usuario.rol
+            request.session["rol"] = usuario.rol.id
             return redirect('usuario:codigo')
     else:
         form = RegisterForm()
