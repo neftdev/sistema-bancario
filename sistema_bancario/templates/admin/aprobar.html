@@ -43,7 +43,8 @@
                     <td>{{ rol.descripcion }}</td>
                     <td>{{ rol.fecha }}</td>
                     <td>
-                        <a class="btn btn-danger" href="/admin/aprobar/{{ rol.cod_credito }}">Aprobar</a>
+                        <a class="btn btn-success" href="/admin/aprobar/{{ rol.cod_credito }}">Aprobar</a>
+                        <a class="btn btn-danger" href="/admin/cancelar/{{ rol.cod_credito }}">Cancelar</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -55,7 +56,8 @@
 
 </br>
 <div class="col-lg-8 mx-auto text-center">
-    <a class="btn btn-primary" href="/admin/reportes/creditos">Creditos activos</a>
+    <a class="btn btn-primary" href="/admin/reportes/creditos">Creditos aprobados</a>
+    <a class="btn btn-primary" href="/admin/reportes/creditos-cancelados">Creditos cancelados</a>
     <a class="btn btn-primary" href="/admin/home">Home Admin</a>
 </div>
 </br>

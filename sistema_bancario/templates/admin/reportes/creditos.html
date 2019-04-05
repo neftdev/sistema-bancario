@@ -11,7 +11,7 @@
       <div class="container">
             <div class="row">
                   <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="section-heading text-white">Creditos aprobados</h2>
+                    <h2 class="section-heading text-white">Creditos {{titulo}}</h2>
                     <hr class="light my-4">
                   </div>
             </div>
@@ -21,6 +21,7 @@
     <div class="col-lg-1 mx-auto text-center"></div>
     <div class="col-lg-9 mx-auto text-center">
         <hr class="light my-4">
+        {% if roles %}
         <table class="table table-bordered">
 
             <col style="width:1%">
@@ -46,6 +47,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <h3> No existen creditos que aprobar</h3>
+        {% endif %}        
     </div>
     <div class="col-lg-1 mx-auto text-center"></div>
 </div>
