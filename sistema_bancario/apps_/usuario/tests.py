@@ -1,5 +1,5 @@
 from django.test import Client, TestCase, SimpleTestCase
-from .models import Usuario, Rol
+from .models import Usuario, Rol, Credito
 
 
 class UsuarioLoginTest(TestCase):
@@ -24,6 +24,15 @@ class UsuarioLoginTest(TestCase):
             full_name="ronald",
             nick_name="ronald",
             correo="ronald@gmail.com",
+            password="12345678",
+            monto="1000",
+            rol=cls.rol2
+        ).save()
+        Usuario(
+            num_cuenta=10003,
+            full_name="mario",
+            nick_name="mario",
+            correo="mario@gmail.com",
             password="12345678",
             monto="1000",
             rol=cls.rol2
@@ -120,3 +129,19 @@ class UsuarioLoginTest(TestCase):
         # Verificar si es valido
         self.assertRedirects(response, '/codigo', status_code=302, target_status_code=200,
                              fetch_redirect_response=True)
+
+    def test_transferencia(self):
+        self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
+        self.client.post('/transferencia', {'cuenta': 10003, 'monto': 100})
+        usuario1 = Usuario.objects.filter(num_cuenta=10002).first()
+        usuario2 = Usuario.objects.filter(num_cuenta=10003).first()
+        self.assertEquals(usuario1.monto, 900)
+        self.assertEquals(usuario2.monto, 1100)
+
+    def test_credito(self):
+        self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
+        self.client.post('/credito', {'monto': 1000, 'descripcion': 'Prueba'})
+        peticion = Credito.objects.all().first()
+        self.assertFalse(peticion, None)
+        self.assertEquals(peticion.descripcion, 'Prueba')
+        self.assertEquals(peticion.cod_estado, 1)

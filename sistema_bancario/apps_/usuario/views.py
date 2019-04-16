@@ -142,18 +142,20 @@ def creditoView(request):
     exito = False
     codigo_usuario = request.session["cod_cuenta"]
 
-    creditos = Credito.objects.filter(cod_usuario_id=codigo_usuario)
-
     if request.method == 'POST':
         post_values = request.POST.copy()
+        print(post_values)
         post_values['cod_usuario'] = codigo_usuario
         post_values['cod_estado'] = 1
+        print(post_values)
         form = CreditoForm(post_values)
         if form.is_valid():
+            print('Llego aqui')
             form.save()
             exito = True
-            form = CreditoForm()
+            form = CreditoForm()            
 
     else:
         form = CreditoForm()
+    creditos = Credito.objects.filter(cod_usuario_id=codigo_usuario)
     return render(request, 'user/credito.html', {'form': form, 'exito': exito, 'creditos': creditos})
