@@ -1,11 +1,14 @@
 from django.test import Client, TestCase, SimpleTestCase
-from .models import Usuario, Rol, Credito
+from .models import Usuario, Rol, Credito, EstadoCredito
 
 
 class UsuarioLoginTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        EstadoCredito(nombre="Pendiente", descripcion="En espera de aprobacion.").save()
+        EstadoCredito(nombre="Aprobado", descripcion="Se acepto el credito al usuario.").save()
+        EstadoCredito(nombre="Cancelado", descripcion="Se rechazo el credito al usuario.").save()
         cls.rol1 = Rol(nombre="Administrador", descripcion=" ")
         cls.rol1.save()
         cls.rol2 = Rol(nombre="Cliente", descripcion=" ")
@@ -141,7 +144,6 @@ class UsuarioLoginTest(TestCase):
     def test_credito(self):
         self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
         self.client.post('/credito', {'monto': 1000, 'descripcion': 'Prueba'})
-        peticion = Credito.objects.all().first()
-        self.assertFalse(peticion, None)
+        peticion = Credito.objects.filter(cod_usuario_id=2).first()
         self.assertEquals(peticion.descripcion, 'Prueba')
-        self.assertEquals(peticion.cod_estado, 1)
+        self.assertEquals(peticion.cod_estado_id, 1)

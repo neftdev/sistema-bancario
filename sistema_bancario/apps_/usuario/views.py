@@ -144,13 +144,10 @@ def creditoView(request):
 
     if request.method == 'POST':
         post_values = request.POST.copy()
-        print(post_values)
         post_values['cod_usuario'] = codigo_usuario
         post_values['cod_estado'] = 1
-        print(post_values)
         form = CreditoForm(post_values)
         if form.is_valid():
-            print('Llego aqui')
             form.save()
             exito = True
             form = CreditoForm()            
