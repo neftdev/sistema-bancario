@@ -22,7 +22,7 @@ from django.urls import path, include
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', include(('apps_.usuario.urls', 'usuario'))),
-    path('admin/', include(('apps_.admin.urls', 'admin')))
+    path('admin/', include(('apps_.admin_.urls', 'admin')))
 ]
 
 #urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

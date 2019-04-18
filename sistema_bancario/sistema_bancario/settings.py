@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps_.usuario',
+    'apps_.admin_',
     'django_jenkins',
 ]
 

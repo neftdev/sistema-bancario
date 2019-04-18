@@ -142,7 +142,7 @@ def eliminarUsuarioView(request, cod_usuario=None):
     return render(request, 'admin/reportes/usuarios.html', {"roles": usuarios})
 
 
-def repCreditosView(request):
+def repCreditosAprobadosView(request):
     # ************************************************VALIDAR ACCESO
     if "cod_cuenta" not in request.session or "rol" not in request.session:
         return redirect('usuario:login')

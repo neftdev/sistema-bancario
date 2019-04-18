@@ -67,36 +67,6 @@ class UsuarioLoginTest(TestCase):
             fetch_redirect_response=True
         )
 
-    def test_login_admin(self):
-        # Se realiza una peticion post con un datos de usuario administrador
-        response = self.client.post(
-            '/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
-
-        # Debe mostra el home para el administrador
-        self.assertRedirects(
-            response, '/admin/home', status_code=302, target_status_code=200,
-            fetch_redirect_response=True
-        )
-
-    def test_verificar_acceso_a_paginas_admin(self):
-        response = self.client.post(
-            '/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
-        response = self.client.get('/admin/acreditar')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina acreditar')
-        response = self.client.get('/admin/debitar')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina debitar')
-        response = self.client.get('/admin/home')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina admin.home')
-        response = self.client.get('/admin/reportes/usuarios')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina reporte.usuarios')
-        response = self.client.get('/admin/reportes/creditos')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina reporte.creditos')
-
     def test_verificar_acceso_a_paginas_cliente(self):
         response = self.client.post(
             '/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
