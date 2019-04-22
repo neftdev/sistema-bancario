@@ -2,11 +2,13 @@
 
 Sistema en línea para que cualquier usuario pueda entrar desde cualquier dispositivo.
 
+
 Requerimientos
 --------------
 
 + Python 3
 + [Django 2.1](https://docs.djangoproject.com/es/2.1/)
+
 
 Configuración (Linux)
 ---------------------
@@ -71,6 +73,7 @@ Configuracion de la base de datos
             'PORT': '3306',
         }
     }
+
 
 Servidor Local
 --------------
