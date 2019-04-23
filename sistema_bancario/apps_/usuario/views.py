@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from .models import Usuario, Transferencia, Credito
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Usuario, Transferencia, Credito, Notificacion
 from .forms import LoginForm, RegisterForm, CreditoForm
 
 
@@ -68,7 +68,6 @@ def loginView(request):
             if rol == 1:
                 return redirect('admin:home')
             elif rol == 2:
-
                 return redirect('usuario:home')
 
     form = LoginForm()
@@ -129,6 +128,11 @@ def transferenciaView(request):
                 monto=monto, origen_cod_usuario=usuario_origen, destino_cod_usuario=usuario_destino
             )
             transferencia.save()
+            Notificacion(
+                descripcion='La cuenta {} te ha transferido el monto de Q{}.'.format(usuario_origen.num_cuenta, monto),
+                url='/home',
+                cod_usuario=usuario_destino
+            ).save()
             return render(request, 'user/transferencia.html', {'exito': exito, 'errors': errors})
 
     return render(request, 'user/transferencia.html', {'errors': errors})
@@ -148,6 +152,16 @@ def creditoView(request):
         post_values['cod_estado'] = 1
         form = CreditoForm(post_values)
         if form.is_valid():
+            usuariosAdmin = Usuario.objects.filter(rol_id=1)
+            usuario = Usuario.objects.filter(cod_usuario=codigo_usuario).first()
+            descrip = 'La cuenta {} ha solicitado un credito.'.format(usuario.num_cuenta)
+            url = '/admin/aprobar/0'
+            for admin in usuariosAdmin:
+                Notificacion(
+                    descripcion= descrip,
+                    url=url,
+                    cod_usuario=admin
+                ).save()
             form.save()
             exito = True
             form = CreditoForm()            
@@ -156,3 +170,13 @@ def creditoView(request):
         form = CreditoForm()
     creditos = Credito.objects.filter(cod_usuario_id=codigo_usuario)
     return render(request, 'user/credito.html', {'form': form, 'exito': exito, 'creditos': creditos})
+
+def notificacion_delete(request, cod_notificacion):
+    notificacion = get_object_or_404(Notificacion, pk=cod_notificacion)
+    if request.method == 'POST':
+        url = notificacion.url
+        notificacion.delete()
+        return redirect(url)
+    if request.session["rol"] == 1:
+        return redirect('admin:home')
+    return redirect('usuario:home')
