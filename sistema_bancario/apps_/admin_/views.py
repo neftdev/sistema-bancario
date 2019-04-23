@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from apps_.usuario.models import Usuario, Credito, Debito
+from apps_.usuario.models import Usuario, Credito, Debito, Notificacion
 from .forms import DebitoForm
 import math
+from datetime import datetime
 # from .models import Debito
 # Create your views here.
 
@@ -23,6 +24,11 @@ def acreditarView(request):
             usuario = Usuario.objects.filter(num_cuenta=cuenta).first()
             usuario.monto = str(float(usuario.monto)+float(monto))
             usuario.save()
+            Notificacion(
+                descripcion='Se te ha acreditado Q{} a tu cuenta.'.format(monto),
+                url='/home',
+                cod_usuario=usuario
+            ).save()
             #print("Monto total: "+str(usuario.monto))
             return render(request, 'admin/acreditar.html', {'exito': True, 'errors': errors})
         else:
@@ -57,6 +63,11 @@ def debitarView(request):
                 debit = Debito(cuenta_id=str(usuario.cod_usuario),
                                monto=monto, descripcion=descripcion)
                 debit.save()
+                Notificacion(
+                    descripcion='Se te ha debitado Q{} de tu cuenta.'.format(monto),
+                    url='/home',
+                    cod_usuario=usuario
+                ).save()
                 return render(request, 'admin/debitar.html', {'exito': True, 'errors': errors})
             else:
                 errors.append('El monto ingresado excede la cuenta por ' +
@@ -96,6 +107,11 @@ def aprobarView(request, id_credito=None):
         usuario = credito.cod_usuario
         usuario.monto += credito.monto
         usuario.save()
+        Notificacion(
+            descripcion='Se ha aceptado tu credito que solicitaste en la fecha {}'.format(datetime.strftime(credito.fecha,'%b %d, %Y')),
+            url='/home',
+            cod_usuario=usuario
+        ).save()
         return redirect('admin:rep_creditos')
 
     creditos = Credito.objects.filter(cod_estado=1)
@@ -113,8 +129,14 @@ def cancelarView(request, id_credito=None):
         cod_credito=id_credito, cod_estado=1).exists()
     if verify:
         credito = Credito.objects.filter(cod_credito=id_credito).first()
+        usuario = credito.cod_usuario
         credito.cod_estado_id = '3'
         credito.save()
+        Notificacion(
+            descripcion='Se ha rechazado tu credito que solicitaste en la fecha {}'.format(datetime.strftime(credito.fecha,'%b %d, %Y')),
+            url='/home',
+            cod_usuario=usuario
+        ).save()
         return redirect('admin:rep_creditos_cancelados')
 
     creditos = Credito.objects.filter(cod_estado=1)
