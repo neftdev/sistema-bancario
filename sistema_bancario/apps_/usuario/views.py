@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Usuario, Transferencia, Credito
+from .models import Usuario, Transferencia, Credito, Debito
 from .forms import LoginForm, RegisterForm, CreditoForm
 
 
@@ -70,10 +70,11 @@ def loginView(request):
             elif rol == 2:
 
                 return redirect('usuario:home')
-
+        else:
+            error="Credenciales invalidas"        
     form = LoginForm()
     # print("//algo2")
-    return render(request, 'login/index.html', {'form': form})
+    return render(request, 'login/index.html', {'form': form,"error": error})
 
 
 def homeView(request):
@@ -83,8 +84,21 @@ def homeView(request):
         return redirect('admin:home')
     codigo = request.session["cod_cuenta"]
     usuario = Usuario.objects.filter(cod_usuario=codigo).first()
+    # print("Cc: "+str(request.session["cod_cuenta"]))
+    entradas = Transferencia.objects.values_list("monto",
+                    "fecha").filter(destino_cod_usuario_id=
+                    request.session["cod_cuenta"]).union(Credito.objects.values_list("monto", 
+                        "fecha").filter(cod_usuario_id=request.session["cod_cuenta"])).values("monto", 
+                    "fecha")
+    salidas = Transferencia.objects.values_list("monto",
+                    "fecha").filter(origen_cod_usuario_id=
+                    request.session["cod_cuenta"]).union(Debito.objects.values_list("monto", 
+                        "fecha").filter(cuenta_id=request.session["cod_cuenta"])).values("monto", 
+                    "fecha")
+
     if usuario is not None:
-        return render(request, 'user/index.html', {'usuario': usuario})
+        return render(request, 'user/index.html', {'usuario': usuario, 
+            'entradas': entradas, 'salidas': salidas})
     return redirect('usuario:login')
 
 
