@@ -127,8 +127,95 @@
             </form>
 		      </div>
 		  </div>
+      </br>
   </div>
 </div>
 
 <br/>
+<section class="bg-dark text-white" id="perfil">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Entradas</h2>
+        <hr class="light my-4">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="row">
+    <div class="col-lg-1 mx-auto text-center"></div>
+    <div class="col-lg-5 mx-auto text-center">
+        <hr class="light my-4">
+        {% if entradas %}
+        <table class="table table-bordered">
+
+            <col style="width:20%">
+            <col style="width:80%">
+            <thead>
+                <tr>
+                    <td>Monto</td>
+                    <td>Fecha</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in entradas %}
+                <tr>
+                    <td>{{ dato.monto }}</td>
+                    <td>{{ dato.fecha }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay entradas</p>
+        {% endif %}
+    </div>
+    <div class="col-lg-1 mx-auto text-center"></div>
+</div>
+
+</br>
+<section class="bg-dark text-white" id="perfil">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Salidas</h2>
+        <hr class="light my-4">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="row">
+    <div class="col-lg-1 mx-auto text-center"></div>
+    <div class="col-lg-5 mx-auto text-center">
+        <hr class="light my-4">
+        {% if salidas %}
+        <table class="table table-bordered">
+
+            <col style="width:20%">
+            <col style="width:80%">
+            <thead>
+                <tr>
+                    <td>Monto</td>
+                    <td>Fecha</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in salidas %}
+                <tr>
+                    <td>{{ dato.monto }}</td>
+                    <td>{{ dato.fecha }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay salidas</p>
+        {% endif %}
+    </div>
+    <div class="col-lg-1 mx-auto text-center"></div>
+</div>
+
+</br>
 {% endblock %}
