@@ -142,25 +142,58 @@
     </div>
   </div>
 </section>
-
+</br>
 <div class="row">
     <div class="col-lg-1 mx-auto text-center"></div>
     <div class="col-lg-5 mx-auto text-center">
-        <hr class="light my-4">
-        {% if entradas %}
+
+        {% if trans_in %}
+        <h4 class="section-heading text-black">Transferencias hacia su cuenta</h4>
+        <table class="table table-bordered">
+
+            <col style="width:15%">
+            <col style="width:70%">
+            <col style="width:15%">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Monto</td>
+                    <th>Fecha</td>
+                    <th>Cuenta</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in trans_in %}
+                <tr class="table-secondary">
+                    <td>{{ dato.monto }}</td>
+                    <td>{{ dato.fecha }}</td>
+                    <td>{{ dato.destino_cod_usuario__num_cuenta }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay Transferencias hacia su cuenta</p>
+        {% endif %}
+
+        </br>
+        <hr class="dark my-4">
+        </br>
+
+        {% if creditos %}
+        <h4 class="section-heading text-black">Créditos Aprobados</h4>
         <table class="table table-bordered">
 
             <col style="width:20%">
             <col style="width:80%">
-            <thead>
+            <thead class="thead-dark">
                 <tr>
-                    <td>Monto</td>
-                    <td>Fecha</td>
+                    <th>Monto</td>
+                    <th>Fecha</td>
                 </tr>
             </thead>
             <tbody>
-                {% for dato in entradas %}
-                <tr>
+                {% for dato in creditos %}
+                <tr class="table-secondary">
                     <td>{{ dato.monto }}</td>
                     <td>{{ dato.fecha }}</td>
                 </tr>
@@ -168,8 +201,9 @@
             </tbody>
         </table>
         {% else %}
-        <p>No hay entradas</p>
+        <p>No hay creditos aprobados </p>
         {% endif %}
+
     </div>
     <div class="col-lg-1 mx-auto text-center"></div>
 </div>
@@ -189,29 +223,62 @@
 <div class="row">
     <div class="col-lg-1 mx-auto text-center"></div>
     <div class="col-lg-5 mx-auto text-center">
-        <hr class="light my-4">
-        {% if salidas %}
+        </br>
+        {% if trans_out %}
+        <h4 class="section-heading text-black">Transferencias desde su cuenta</h4>
         <table class="table table-bordered">
 
-            <col style="width:20%">
-            <col style="width:80%">
-            <thead>
+            <col style="width:15%">
+            <col style="width:70%">
+            <col style="width:15%">
+            <thead class="thead-dark">
                 <tr>
-                    <td>Monto</td>
-                    <td>Fecha</td>
+                    <th scope="col">Monto</td>
+                    <th scope="col">Fecha</td>
+                    <th scope="col">Cuenta</td>
                 </tr>
             </thead>
             <tbody>
-                {% for dato in salidas %}
-                <tr>
+                {% for dato in trans_out %}
+                <tr class="table-secondary">
                     <td>{{ dato.monto }}</td>
                     <td>{{ dato.fecha }}</td>
+                    <td>{{ dato.origen_cod_usuario__num_cuenta }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
-        <p>No hay salidas</p>
+        <p>No hay Transferencias desde su cuenta</p>
+        {% endif %}
+
+        </br>
+        <hr class="white my-4">
+        </br>
+
+        {% if debitos %}
+        <h4 class="section-heading text-black">Débitos</h4>
+        <table class="table table-bordered">
+
+            <col style="width:30%">
+            <col style="width:70%">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Monto</td>
+                    <th scope="col">Fecha</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in debitos %}
+                <tr class="table-secondary">
+                    <td scope="row">{{ dato.monto }}</td>
+                    <td scope="row">{{ dato.fecha }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay débitos aprobados </p>
         {% endif %}
     </div>
     <div class="col-lg-1 mx-auto text-center"></div>

@@ -84,20 +84,18 @@ def homeView(request):
     codigo = request.session["cod_cuenta"]
     usuario = Usuario.objects.filter(cod_usuario=codigo).first()
     # print("Cc: "+str(request.session["cod_cuenta"]))
-    entradas = Transferencia.objects.values_list("monto",
-                    "fecha").filter(destino_cod_usuario_id=
-                    request.session["cod_cuenta"]).union(Credito.objects.values_list("monto", 
-                        "fecha").filter(cod_usuario_id=request.session["cod_cuenta"])).values("monto", 
-                    "fecha")
-    salidas = Transferencia.objects.values_list("monto",
-                    "fecha").filter(origen_cod_usuario_id=
-                    request.session["cod_cuenta"]).union(Debito.objects.values_list("monto", 
-                        "fecha").filter(cuenta_id=request.session["cod_cuenta"])).values("monto", 
-                    "fecha")
+    trans_in = Transferencia.objects.filter(destino_cod_usuario_id=
+                    request.session["cod_cuenta"]).values("monto", "fecha", "destino_cod_usuario__num_cuenta")
+    creditos = Credito.objects.filter(cod_usuario_id=request.session["cod_cuenta"]).values("monto", "fecha")
+
+    trans_out = Transferencia.objects.filter(origen_cod_usuario_id=
+                    request.session["cod_cuenta"]).values("monto", "fecha", "origen_cod_usuario__num_cuenta")   
+    debitos = Debito.objects.filter(cuenta_id=request.session["cod_cuenta"]).values("monto", "fecha")
 
     if usuario is not None:
         return render(request, 'user/index.html', {'usuario': usuario, 
-            'entradas': entradas, 'salidas': salidas})
+            'trans_in': trans_in, 'creditos': creditos, 
+            'trans_out': trans_out, 'debitos': debitos})
     return redirect('usuario:login')
 
 
