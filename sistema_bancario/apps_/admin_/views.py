@@ -3,6 +3,7 @@ from apps_.usuario.models import Usuario, Credito, Debito, Notificacion, Transfe
 from .forms import DebitoForm
 import math
 from datetime import datetime
+from django.utils.timezone import now
 # from .models import Debito
 # Create your views here.
 
@@ -108,6 +109,7 @@ def aprobarView(request, id_credito=None):
     if verify:
         credito = Credito.objects.filter(cod_credito=id_credito).first()
         credito.cod_estado_id = '2'
+        credito.fecha_aprob = datetime.now()
         credito.save()
         usuario = credito.cod_usuario
         usuario.monto += credito.monto

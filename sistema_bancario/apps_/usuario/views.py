@@ -90,7 +90,7 @@ def homeView(request):
     # print("Cc: "+str(request.session["cod_cuenta"]))
     trans_in = Transferencia.objects.filter(destino_cod_usuario_id=
                     request.session["cod_cuenta"]).values("monto", "fecha", "destino_cod_usuario__num_cuenta")
-    creditos = Credito.objects.filter(cod_usuario_id=request.session["cod_cuenta"]).values("monto", "fecha")
+    creditos = Credito.objects.filter(cod_estado_id=2, cod_usuario_id=request.session["cod_cuenta"]).values("monto", "fecha")
 
     trans_out = Transferencia.objects.filter(origen_cod_usuario_id=
                     request.session["cod_cuenta"]).values("monto", "fecha", "origen_cod_usuario__num_cuenta")   
