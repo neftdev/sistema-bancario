@@ -1,6 +1,10 @@
+from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from .models import Usuario, Transferencia, Credito, Notificacion, Debito
 from .forms import LoginForm, RegisterForm, CreditoForm
+from sistema_bancario.util import render_pdf
+import time
 
 
 def codigoView(request):
@@ -194,3 +198,40 @@ def notificacion_delete(request, cod_notificacion):
     if request.session["rol"] == 1:
         return redirect('admin:home')
     return redirect('usuario:home')
+
+
+def crear_reporte(request):
+    if "cod_cuenta" not in request.session or "rol" not in request.session:
+        return redirect('usuario:login')
+    if request.session["rol"] != 2:
+        return redirect('admin:home')
+    codigo = request.session["cod_cuenta"]
+    usuario = Usuario.objects.filter(cod_usuario=codigo).first()
+
+    trans_enviadas = Transferencia.objects.filter(origen_cod_usuario=usuario)
+    total_trans_env = trans_enviadas.aggregate(Sum('monto'))
+
+    trans_recibidas = Transferencia.objects.filter(destino_cod_usuario=usuario)
+    total_trans_rec = trans_recibidas.aggregate(Sum('monto'))
+
+    creditos = Credito.objects.filter(cod_usuario=usuario).filter(cod_estado_id=2)
+    total_creditos = creditos.aggregate(Sum('monto'))
+
+    debitos = Debito.objects.filter(cuenta=usuario)
+    total_debitos = debitos.aggregate(Sum('monto'))
+
+    fecha = time.strftime("%c")
+
+    pdf = render_pdf("user/reporte.html", {
+        "usuario": usuario,
+        "trans_enviadas": trans_enviadas,
+        "trans_recibidas": trans_recibidas,
+        "creditos": creditos,
+        "debitos": debitos,
+        "total_trans_env": total_trans_env,
+        "total_trans_rec": total_trans_rec,
+        "total_creditos": total_creditos,
+        "total_debitos": total_debitos,
+        "fecha": fecha
+    })
+    return HttpResponse(pdf, content_type="application/pdf")
