@@ -1,0 +1,191 @@
+<html>
+	<head>
+		<title>Mi estado de cuenta</title>
+		<style>
+			table {
+				font-family: "Helvetica Neue", Helvetica, sans-serif;
+			}
+
+			h1 {
+				text-align: center;
+				font-weight: bold;
+				font-size: 7;
+				border-bottom-style: dashed;
+				border-bottom-width: 2px;
+			}
+
+			h2 {
+				text-align: center;
+				font-weight: bold;
+				font-size: 5;
+				background-color: powderblue;
+				padding: 5px 10px;
+			}
+			table,
+			th,
+			td,
+            tr {
+				border: 1px solid black;
+			}
+			th,
+			td {
+				padding: 5px 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>REPORTE DE ESTADO DE CUENTA</h1>
+
+        <div style="text-align: center;">
+            <b>Mi Cuenta: {{usuario.num_cuenta}}</b>
+            <br/>
+            <b>Mi Saldo actual: {{usuario.monto}}</b>
+			<br/>
+			<b>Fecha de creacion: {{fecha}}</b>
+        </div>
+
+		<div>
+			<h2>Entradas de dinero</h2>
+
+			{% if trans_recibidas or creditos %}
+            
+            {% if trans_recibidas %}
+			<div>
+				<h3>Transferencias</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Usuario Emisor (No. Cuenta)</th>
+							<th>Fecha de Transaccion</th>
+							<th>Monto Recibido</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for t in trans_recibidas %}
+						<tr>
+							<td>
+								{{ t.origen_cod_usuario.nick_name }} ({{ t.origen_cod_usuario.num_cuenta }})
+							</td>
+							<td>Sin fecha aun</td>
+							<td>Q.{{ t.monto }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<th colspan="2">Total</th>
+							<th>Q.{{ total_trans_rec.monto__sum }}</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			{% endif %}
+
+            {% if creditos %}
+			<div>
+				<h3>Creditos</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Descripcion</th>
+							<th>Fecha de peticion</th>
+							<th>Fecha de aceptacion</th>
+							<th>Monto Recibido</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for c in creditos %}
+                        <tr>
+							<td>{{ c.descripcion }}</td>
+							<td>{{ c.fecha }}</td>
+							<td>Sin fecha aun</td>
+							<td>Q.{{ c.monto }}</td>
+						</tr>
+                        {% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<th colspan="3">Total</th>
+							<th>Q.{{ total_creditos.monto__sum }}</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			{% endif %}
+		</div>
+		{% else %}
+		<b>No hay entradas de dinero</b>
+		{% endif %}
+
+		<div>
+			<h2>Salidas de dinero</h2>
+            {% if trans_enviadas or debitos %}
+
+            {% if trans_enviadas %}
+			<div>
+				<h3>Transferencias</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Usuario Receptor (No. Cuenta)</th>
+							<th>Fecha de Transaccion</th>
+							<th>Monto Enviado</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for t in trans_enviadas %}
+						<tr>
+							<td>
+								{{ t.destino_cod_usuario.nick_name }} ({{ t.destino_cod_usuario.num_cuenta }})
+							</td>
+							<td>Sin fecha aun</td>
+							<td>Q.{{ t.monto }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<th colspan="2">Total</th>
+							<th>Q.{{ total_trans_env.monto__sum }}</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+            {% endif %}
+
+            {% if debitos %}
+			<div>
+				<h3>Debitos</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Descripcion</th>
+							<th>Fecha de Transaccion</th>
+							<th>Monto Debitado</th>
+						</tr>
+					</thead>
+					<tbody>
+                        {% for d in debitos %}
+                        <tr>
+							<td>{{ d.descripcion }}</td>
+							<td>{{ d.fecha }}</td>
+							<td>Q.{{ d.monto }}</td>
+						</tr>
+                        {% endfor %}						
+					</tbody>
+					<tfoot>
+						<tr>
+							<th colspan="2">Total</th>
+							<th>Q.{{total_debitos.monto__sum}}</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+            {% endif %}
+            {% else %}
+            <b>No hay salidas de dinero</b>
+            {% endif %}
+		</div>
+
+	</body>
+</html>
