@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps_.usuario.models import Usuario, Credito, Debito, Notificacion
+from apps_.usuario.models import Usuario, Credito, Debito, Notificacion, Transferencia
 from .forms import DebitoForm
 import math
 from datetime import datetime
@@ -21,9 +21,14 @@ def acreditarView(request):
         #print("Cuenta: "+cuenta)
         verify = Usuario.objects.filter(num_cuenta=cuenta).exists()
         if verify:
-            usuario = Usuario.objects.filter(num_cuenta=cuenta).first()
+            usuario = Usuario.objects.filter(num_cuenta=cuenta).first()            
             usuario.monto = str(float(usuario.monto)+float(monto))
             usuario.save()
+            codigo = request.session["cod_cuenta"]
+            admin = Usuario.objects.filter(cod_usuario=codigo).first()
+            Transferencia(
+                monto=monto, origen_cod_usuario=admin, destino_cod_usuario=usuario
+            ).save()
             Notificacion(
                 descripcion='Se te ha acreditado Q{} a tu cuenta.'.format(monto),
                 url='/home',
