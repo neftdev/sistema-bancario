@@ -66,7 +66,7 @@
 							<td>
 								{{ t.origen_cod_usuario.nick_name }} ({{ t.origen_cod_usuario.num_cuenta }})
 							</td>
-							<td>Sin fecha aun</td>
+							<td>{{ t.fecha }}</td>
 							<td>Q.{{ t.monto }}</td>
 						</tr>
 						{% endfor %}
@@ -98,7 +98,7 @@
                         <tr>
 							<td>{{ c.descripcion }}</td>
 							<td>{{ c.fecha }}</td>
-							<td>Sin fecha aun</td>
+							<td>{{ c.fecha_aprob }}</td>
 							<td>Q.{{ c.monto }}</td>
 						</tr>
                         {% endfor %}
@@ -138,7 +138,7 @@
 							<td>
 								{{ t.destino_cod_usuario.nick_name }} ({{ t.destino_cod_usuario.num_cuenta }})
 							</td>
-							<td>Sin fecha aun</td>
+							<td>{{ t.fecha }}</td>
 							<td>Q.{{ t.monto }}</td>
 						</tr>
 						{% endfor %}
