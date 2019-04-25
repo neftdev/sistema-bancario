@@ -69,21 +69,25 @@ class UsuarioLoginTest(TestCase):
             fetch_redirect_response=True
         )
 
-    def test_verificar_acceso_a_paginas_cliente(self):
-        response = self.client.post(
-            '/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
+    def test_verificar_acceso_a_user_codigo(self):
+        self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
         response = self.client.get('/codigo')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina codigo')
+        self.assertEqual(response.status_code, 200,'No funciona la pagina codigo')
+
+    def test_verificar_acceso_a_user_transferencia(self):
+        self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
         response = self.client.get('/transferencia')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina de transferencia')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina de transferencia')
+
+    def test_verificar_acceso_a_user_home(self):
+        self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
         response = self.client.get('/home')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina home')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina home')
+
+    def test_verificar_acceso_a_user_creditos(self):
+        self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})        
         response = self.client.get('/credito')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina de creditos')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina de creditos')
 
     # ***********************************************TESTS DE REGISTRO
 
@@ -134,28 +138,35 @@ class UsuarioLoginTest(TestCase):
             fetch_redirect_response=True
         )
 
-    def test_verificar_acceso_a_paginas_admin(self):
+    def test_verificar_acceso_a_admin_acreditar(self):
         self.client.post('/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
         response = self.client.get('/admin/acreditar')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina acreditar')
 
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina acreditar')
+    def test_verificar_acceso_a_admin_debitar(self):
+        self.client.post('/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
         response = self.client.get('/admin/debitar')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina debitar')
-        response = self.client.get('/admin/home')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina admin.home')
-        response = self.client.get('/admin/reportes/usuarios')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina reporte.usuarios')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina debitar')
 
+    def test_verificar_acceso_a_admin_home(self):
+        self.client.post('/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
+        response = self.client.get('/admin/home')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina admin.home')
+
+    def test_verificar_acceso_a_admin_reporte_usuarios(self):
+        self.client.post('/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
+        response = self.client.get('/admin/reportes/usuarios')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina reporte.usuarios')
+
+    def test_verificar_acceso_a_admin_creditos_aprobados(self):
+        self.client.post('/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})
         response = self.client.get('/admin/reportes/creditos-aprobados')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina reporte.creditos')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina reporte.creditos')
+
+    def test_verificar_acceso_a_admin_creditos_cancelados(self):
+        self.client.post('/login', {'cod_usuario': 1, 'password': '12121212', 'nick_name': 'admin'})        
         response = self.client.get('/admin/reportes/creditos-cancelados')
-        self.assertEqual(response.status_code, 200,
-                         'No funciona la pagina reporte.creditos')
+        self.assertEqual(response.status_code, 200, 'No funciona la pagina reporte.creditos')
         
 
     # ***********************************************TESTS DE ADMIN
