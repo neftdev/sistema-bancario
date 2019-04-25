@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
-
+from django.utils.timezone import now
 
 class Rol(models.Model):
     nombre = models.CharField(max_length=20)
@@ -65,6 +65,7 @@ class Credito(models.Model):
     monto = models.DecimalField(max_digits=6, decimal_places=2, blank=False)
     descripcion = models.TextField(blank=False)
     fecha = models.DateTimeField(auto_now_add=True, blank=True)
+    fecha_aprob = models.DateTimeField(blank=True, default=now)
     cod_usuario = models.ForeignKey(
         Usuario, null=False, blank=False, on_delete=models.CASCADE)
     cod_estado = models.ForeignKey(
@@ -73,3 +74,14 @@ class Credito(models.Model):
     def __unicode__(self):
         return 'Credito: {}, Monto: {}, Descripcion: {}'.format(
             self.cod_credito, self.monto, self.descripcion)
+
+
+class Notificacion(models.Model):
+    cod_notificacion = models.AutoField(primary_key=True)
+    descripcion = models.TextField(blank=False)
+    url = models.TextField(blank=True, null=True)
+    cod_usuario = models.ForeignKey(
+        Usuario, null=False, blank=False, on_delete=models.CASCADE)
+    
+    def __unicode__(self):
+        return '{}'.format(self.descripcion)

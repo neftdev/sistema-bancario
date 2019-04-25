@@ -38,7 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps_.usuario',
+    'apps_.admin_',
+    'django_jenkins',
 ]
+
+JENKINS_TASKS = (
+    'django_jenkins.tasks.run_pep8',
+    'django_jenkins.tasks.run_pyflakes',
+    'django_jenkins.tasks.run_pylint',
+    'django_jenkins.tasks.run_flake8'
+)
+
+PROJECT_APPS = ['apps_.usuario']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,6 +75,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps_.usuario.context.usuarioLogueado',
+                'apps_.usuario.context.get_notificaciones',                
             ],
         },
     },

@@ -1,6 +1,6 @@
 from django.urls import path
-from apps_.admin.views import homeView, acreditarView, debitarView, aprobarView, cancelarView
-from apps_.admin.views import repUsuariosView, repCreditosView, eliminarUsuarioView, repCreditosCanceladosView
+from apps_.admin_.views import homeView, acreditarView, debitarView, aprobarView, cancelarView
+from apps_.admin_.views import repUsuariosView, repCreditosAprobadosView, eliminarUsuarioView, repCreditosCanceladosView
 
 from django.conf.urls import url
 urlpatterns = [
@@ -13,6 +13,6 @@ urlpatterns = [
 
  	url(r'^reportes/usuarios/eliminar/(?P<cod_usuario>\d+)$', eliminarUsuarioView, 
  		name='eliminar_usuario'),	
- 	path('reportes/creditos', repCreditosView, name='rep_creditos'),
+ 	path('reportes/creditos-aprobados', repCreditosAprobadosView, name='rep_creditos'),
 	path('reportes/creditos-cancelados', repCreditosCanceladosView, name='rep_creditos_cancelados'),
 ]

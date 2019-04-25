@@ -22,6 +22,22 @@
           <a class="dropdown-item" href="/login">Logout</a>
         </div>
       </li>
+      {% if notificaciones != None %}
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+          <span class="badge badge-danger">{{ notificaciones.count }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+        {% for notificacion in notificaciones %}
+          <form action="/notificacion/delete/{{notificacion.cod_notificacion}}" method="POST">
+            {% csrf_token %}
+            <input class="dropdown-item" type="submit" value="{{notificacion.descripcion}}"/>
+          </form>
+        {% endfor %}
+        </div>
+      </li>
+      {% endif %}      
 {% endblock %}
 
 {% block content %}
@@ -111,7 +127,170 @@
             </form>
 		      </div>
 		  </div>
+      </br>
   </div>
+</div>
+
+<br/>
+<section class="bg-dark text-white" id="perfil">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Entradas</h2>
+        <hr class="light my-4">
+      </div>
+    </div>
+  </div>
+</section>
+</br>
+<div class="row">
+    <div class="col-lg-1 mx-auto text-center"></div>
+    <div class="col-lg-5 mx-auto text-center">
+
+        {% if trans_in %}
+        <h4 class="section-heading text-black">Transferencias hacia su cuenta</h4>
+        <table class="table table-bordered">
+
+            <col style="width:15%">
+            <col style="width:70%">
+            <col style="width:15%">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Monto</td>
+                    <th>Fecha</td>
+                    <th>Cuenta</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in trans_in %}
+                <tr class="table-secondary">
+                    <td>{{ dato.monto }}</td>
+                    <td>{{ dato.fecha }}</td>
+                    <td>{{ dato.destino_cod_usuario__num_cuenta }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay Transferencias hacia su cuenta</p>
+        {% endif %}
+
+        </br>
+        <hr class="dark my-4">
+        </br>
+
+        {% if creditos %}
+        <h4 class="section-heading text-black">Créditos Aprobados</h4>
+        <table class="table table-bordered">
+
+            <col style="width:20%">
+            <col style="width:80%">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Monto</td>
+                    <th>Fecha</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in creditos %}
+                <tr class="table-secondary">
+                    <td>{{ dato.monto }}</td>
+                    <td>{{ dato.fecha }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay creditos aprobados </p>
+        {% endif %}
+
+    </div>
+    <div class="col-lg-1 mx-auto text-center"></div>
+</div>
+
+</br>
+<section class="bg-dark text-white" id="perfil">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">Salidas</h2>
+        <hr class="light my-4">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="row">
+    <div class="col-lg-1 mx-auto text-center"></div>
+    <div class="col-lg-5 mx-auto text-center">
+        </br>
+        {% if trans_out %}
+        <h4 class="section-heading text-black">Transferencias desde su cuenta</h4>
+        <table class="table table-bordered">
+
+            <col style="width:15%">
+            <col style="width:70%">
+            <col style="width:15%">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Monto</td>
+                    <th scope="col">Fecha</td>
+                    <th scope="col">Cuenta</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in trans_out %}
+                <tr class="table-secondary">
+                    <td>{{ dato.monto }}</td>
+                    <td>{{ dato.fecha }}</td>
+                    <td>{{ dato.origen_cod_usuario__num_cuenta }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay Transferencias desde su cuenta</p>
+        {% endif %}
+
+        </br>
+        <hr class="white my-4">
+        </br>
+
+        {% if debitos %}
+        <h4 class="section-heading text-black">Débitos</h4>
+        <table class="table table-bordered">
+
+            <col style="width:30%">
+            <col style="width:70%">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Monto</td>
+                    <th scope="col">Fecha</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in debitos %}
+                <tr class="table-secondary">
+                    <td scope="row">{{ dato.monto }}</td>
+                    <td scope="row">{{ dato.fecha }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay débitos aprobados </p>
+        {% endif %}
+    </div>
+    <div class="col-lg-1 mx-auto text-center"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <hr class="light my-4">
+          </br>
+          <a class="btn btn-light btn-xl js-scroll-trigger" href="/mi_estado">Imprimir estado de cuenta</a>
+        </div>
+      </div>
+    </div>
 </div>
 
 </br>
