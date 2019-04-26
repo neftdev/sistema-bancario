@@ -200,7 +200,7 @@ def notificacion_delete(request, cod_notificacion):
 
 def crear_reporte(request):
     if "cod_cuenta" not in request.session or "rol" not in request.session:
-        return redirect('usuario:login')
+    return redirect('usuario:login')
     if request.session["rol"] != 2:
         return redirect('admin:home')
     codigo = request.session["cod_cuenta"]
