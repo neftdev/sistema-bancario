@@ -1,5 +1,8 @@
 from django.test import Client, TestCase, SimpleTestCase
 from .models import Usuario, Rol, Credito, EstadoCredito
+from django.urls import reverse
+from django.db import transaction
+from django.db import IntegrityError
 
 
 class UsuarioLoginTest(TestCase):
@@ -208,3 +211,14 @@ class UsuarioLoginTest(TestCase):
         cred2 = Credito.objects.filter(pk=2).first()
         self.assertEquals(cred1.cod_estado_id, 2)
         self.assertEquals(cred2.cod_estado_id, 3)
+
+    def test_verificar_estado_cuenta(self):
+        self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
+        response = self.client.get('/home')
+        self.assertContains(response, 'Entradas')
+        self.assertContains(response, 'Salidas')
+
+    def test_verificar_impresion_estado_cuenta(self): 
+        self.client.post('/login', {'cod_usuario': 2, 'password': '12345678', 'nick_name': 'ronald'})
+        # response = self.client.get('/mi_estado')
+        # self.assertEqual(response.status_code, 200, 'No funciona la pagina de impresion de estado')

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'apps_.usuario',
     'apps_.admin_',
     'django_jenkins',
+    'django_extensions',
 ]
 
 JENKINS_TASKS = (
